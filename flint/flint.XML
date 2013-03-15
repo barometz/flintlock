@@ -1,0 +1,284 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>flint</name>
+    </assembly>
+    <members>
+        <member name="T:flint.EndpointSync`1">
+            <summary> Provides an "immediate" return value for requests 
+            that would otherwise be answered through an event.
+            </summary>
+            <remarks>
+            Seems like there should be a tidier way using System.Threading, but I
+            don't see it. An important detail is that if the request is created in 
+            the thread where messages are received, waiting for this reply may/will
+            block and ruin everything.
+            </remarks>
+        </member>
+        <member name="M:flint.EndpointSync`1.WaitAndReturn(System.Int32,System.Int32)">
+            <summary> Block until the request has returned. </summary>
+            <param name="delay">The minimum delay between checks in milliseconds.</param>
+            <param name="timeout">The time to wait until giving up entirely, at 
+            which point a TimeoutException is raised.</param>
+            <returns></returns>
+        </member>
+        <member name="T:flint.Pebble">
+            <summary> Represents a (connection to a) Pebble.  
+            PebbleProtocol is blissfully unaware of the *meaning* of anything, 
+            all that is handled here.
+            </summary>
+        </member>
+        <member name="F:flint.Pebble.endpointEvents">
+            <summary> Holds callbacks for the separate endpoints.  
+            Saves a lot of typing. There's probably a good reason not to do this.
+            </summary>
+        </member>
+        <member name="M:flint.Pebble.#ctor(System.String,System.String)">
+            <summary> Create a new Pebble 
+            </summary>
+            <param name="port">The serial port to connect to.</param>
+            <param name="pebbleid">The four-character Pebble ID, based on its BT address.  
+            Nothing explodes when it's incorrect, it's merely used for identification.</param>
+        </member>
+        <member name="M:flint.Pebble.GetPebble(System.String)">
+            <summary> Returns one of the paired Pebbles, or a specific one 
+            when a four-character ID is provided.  Convenience function for 
+            when you know there's only one, mostly.
+            </summary>
+            <param name="pebbleid"></param>
+            <returns></returns>
+            <exception cref="!:pebble.PebbleNotFoundException">When no Pebble or no Pebble of the 
+            specified id was found.</exception>
+        </member>
+        <member name="M:flint.Pebble.DetectPebbles">
+            <summary> Detect all Pebbles that have been paired with this system.
+            Takes a little while because apparently listing all available serial 
+            ports does.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:flint.Pebble.SetCaps(System.Nullable{System.UInt32},System.Nullable{System.UInt32})">
+            <summary> Set the capabilities you want to tell the Pebble about.  
+            Should be called before connecting.
+            </summary>
+            <param name="session_cap"></param>
+            <param name="remote_caps"></param>
+        </member>
+        <member name="M:flint.Pebble.Connect">
+            <summary> Connect with the Pebble. 
+            </summary>
+            <exception cref="T:System.IO.IOException">Passed on when no connection can be made.</exception>
+        </member>
+        <member name="M:flint.Pebble.pingTimer_Elapsed(System.Object,System.Timers.ElapsedEventArgs)">
+            <summary> Recurring prod to check whether the Pebble is still connected and responding.
+            </summary>
+            <remarks>
+            Ugly hack?  Yes.  It might be possible to do this more properly with the 32feet.NET bt lib.
+            </remarks>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:flint.Pebble.RegisterEndpointCallback(flint.Pebble.Endpoints,System.EventHandler{flint.MessageReceivedEventArgs})">
+            <summary> Subscribe to the event of a particular endpoint message 
+            being received.  This enables subscribing to any endpoint, 
+            including those that have yet to be discovered.
+            </summary>
+            <param name="endpoint"></param>
+            <param name="handler"></param>
+        </member>
+        <member name="M:flint.Pebble.Ping(System.UInt32,System.Boolean)">
+            <summary> Send the Pebble a ping. 
+            </summary>
+            <param name="cookie"></param>
+            <param name="async">If true, return null immediately and let the caller wait for a PING event.  If false, 
+            wait for the reply and return the PingReceivedEventArgs.</param>
+        </member>
+        <member name="M:flint.Pebble.Notification(System.Byte,System.String[])">
+            <summary>
+            Generic notification support.  Shouldn't have to use this, but feel free.
+            </summary>
+            <param name="type">Notification type.  So far we've got 0 for mail, 1 for SMS.</param>
+            <param name="parts">Message parts will be clipped to 255 bytes.</param>
+        </member>
+        <member name="M:flint.Pebble.NotificationMail(System.String,System.String,System.String)">
+            <summary>
+            Send an email notification.  The message parts are clipped to 255 bytes.
+            </summary>
+            <param name="sender"></param>
+            <param name="subject"></param>
+            <param name="body"></param>
+        </member>
+        <member name="M:flint.Pebble.NotificationSMS(System.String,System.String)">
+            <summary>
+            Send an SMS notification.  The message parts are clipped to 255 bytes.
+            </summary>
+            <param name="sender"></param>
+            <param name="body"></param>
+        </member>
+        <member name="M:flint.Pebble.NowPlaying(System.String,System.String,System.String)">
+            <summary> Send "Now playing.." metadata to the Pebble.  
+            The track, album and artist should each not be longer than 255 bytes.
+            </summary>
+            <param name="track"></param>
+            <param name="album"></param>
+            <param name="artist"></param>
+        </member>
+        <member name="M:flint.Pebble.GetTime(System.Boolean)">
+            <summary>
+            Get the time from the connected Pebble.
+            </summary>
+            <param name="async">When true, this returns null immediately.  Otherwise it waits for the event and sends 
+            the appropriate TimeReceivedEventArgs.</param>
+            <returns>A TimeReceivedEventArgs with the time, or null.</returns>
+        </member>
+        <member name="M:flint.Pebble.BadPing">
+            <summary> Send a malformed ping (to trigger a LOGS response)
+            </summary>
+        </member>
+        <member name="M:flint.Pebble.GetVersion(System.Boolean)">
+            <summary> Get the Pebble's version info.  
+            </summary>
+            <param name="async">If true, return immediately.  If false, wait until the response 
+            has been received.</param>
+        </member>
+        <member name="M:flint.Pebble.pebbleProt_RawMessageReceived(System.Object,flint.RawMessageReceivedEventArgs)">
+            Pebble message event handlers *
+        </member>
+        <member name="M:flint.Pebble.sendMessage(flint.Pebble.Endpoints,System.Byte[])">
+            <summary> Send a message to the connected Pebble.  
+            The payload should at most be 2048 bytes large.
+            </summary>
+            <remarks>
+            Yes, the docs at developers.getpebble.com say 4 kB.  I've received some errors from the Pebble that indicated 2 kB
+            and that's what I'll assume for the time being.
+            </remarks>
+            <param name="endpoint"></param>
+            <param name="payload"></param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Passed on when the payload is too large.</exception>
+        </member>
+        <member name="M:flint.Pebble.TimestampToDateTime(System.Int32)">
+            <summary> Convert a Unix timestamp to a DateTime object.
+            </summary>
+            <remarks>
+            This has some issues, as Pebble isn't timezone-aware and it's 
+            unclear how either side deals with leap seconds.  For basic usage
+            this should be plenty, though.
+            </remarks>
+            <param name="ts"></param>
+            <returns></returns>
+        </member>
+        <member name="P:flint.Pebble.PebbleID">
+            <summary> The four-char ID for the Pebble, based on its BT address. 
+            </summary>
+        </member>
+        <member name="P:flint.Pebble.Port">
+            <summary> The serial port the Pebble is on. 
+            </summary>
+        </member>
+        <member name="P:flint.Pebble.Firmware">
+            Pebble version info *
+        </member>
+        <member name="T:flint.MessageReceivedEventArgs">
+            <summary> Event args for any Pebble message, containing an endpoint and 
+            the payload in bytes.
+            </summary>
+        </member>
+        <member name="T:flint.TimeReceivedEventArgs">
+            <summary> Received a TIME response from the Pebble.
+            </summary>
+        </member>
+        <member name="M:flint.TimeReceivedEventArgs.#ctor(flint.Pebble.Endpoints,System.Byte[])">
+            <summary> Create a new TimeReceivedEventArgs.
+            </summary>
+            <param name="payload">Must be 5 bytes long.  The latter four are interpreted as a timestamp.</param>
+        </member>
+        <member name="M:flint.TimeReceivedEventArgs.#ctor(System.Byte[])">
+            <summary> Create a new TimeReceivedEventArgs.
+            </summary>
+            <param name="payload">Must be 5 bytes long.  The latter four are interpreted as a timestamp.</param>
+        </member>
+        <member name="P:flint.TimeReceivedEventArgs.Time">
+            <summary> The time as returned by the Pebble.
+            </summary>
+        </member>
+        <member name="T:flint.PingReceivedEventArgs">
+            <summary> Event args for a PING response. </summary>
+        </member>
+        <member name="M:flint.PingReceivedEventArgs.#ctor(flint.Pebble.Endpoints,System.Byte[])">
+            <summary> Create new eventargs for a PING. </summary>
+            <param name="payload">The payload. Has to be five bytes long, 
+            otherwise something's wrong.</param>
+        </member>
+        <member name="T:flint.LogReceivedEventArgs">
+            <summary> Event args for a LOGS message. </summary>
+        </member>
+        <member name="T:flint.MediaControlReceivedEventArgs">
+            <summary> Event args for a media control event (play/pause, forward, 
+            previous). 
+            </summary>
+        </member>
+        <member name="M:flint.MediaControlReceivedEventArgs.#ctor(flint.Pebble.Endpoints,System.Byte[])">
+            <summary> Create a new media control event.  The payload should be 
+            1 byte long.
+            </summary>
+            <param name="payload"></param>
+        </member>
+        <member name="M:flint.MediaControlReceivedEventArgs.#ctor(System.Byte[])">
+            <summary> Create a new media control event.  The payload should be 
+            1 byte long.
+            </summary>
+            <param name="payload"></param>
+        </member>
+        <member name="T:flint.RawMessageReceivedEventArgs">
+            <summary> Args for the event of a message being received. 
+            Possibly a little excessive as the relevant event will most likely have 
+            exactly one subscriber, but it's a small effort.
+            </summary>
+        </member>
+        <member name="T:flint.PebbleProtocol">
+            <summary> Handles the basic protocol structure for Pebble communication.
+            Essentially handles the SerialPort and translates the stream to 
+            endpoint,payload pairs and vv.  Does and should not handle anything 
+            regarding the *meaning* of that data.
+            </summary>
+        </member>
+        <member name="M:flint.PebbleProtocol.#ctor(System.String)">
+            <summary> Create a new Pebble connection </summary>
+            <param name="port"></param>
+        </member>
+        <member name="M:flint.PebbleProtocol.Connect">
+            <summary> Connect to the Pebble. </summary>
+            <exception cref="T:System.IO.IOException">Passed on when no connection can be made.</exception>
+        </member>
+        <member name="M:flint.PebbleProtocol.sendMessage(System.UInt16,System.Byte[])">
+            <summary> Send a message to the connected Pebble.  
+            The payload should at most be 2048 bytes large.
+            </summary>
+            <param name="endpoint"></param>
+            <param name="payload"></param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown when the payload is too large.</exception>
+        </member>
+        <member name="M:flint.PebbleProtocol.serialPort_ErrorReceived(System.Object,System.IO.Ports.SerialErrorReceivedEventArgs)">
+            <summary> Serial error handler.  Passes stuff on to the next subscriber.
+            </summary>
+            <remarks>
+            For the possible errors, <see cref="T:System.IO.Ports.SerialError"/>.  
+            I figure most if not all will be taken care of by the BT layer.
+            </remarks>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:flint.PebbleProtocol.readAndProcess">
+            <summary> Read from the serial line if a useful chunk is present.
+            </summary>
+            <remarks>
+            In this case a "useful chunk" means that either the payload size 
+            and endpoint of a new message or the complete payload of a message 
+            are present.
+            </remarks>
+            <returns>
+            True if there was enough data to read, otherwise false.
+            </returns>
+        </member>
+    </members>
+</doc>
