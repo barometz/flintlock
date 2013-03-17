@@ -109,6 +109,21 @@ namespace flintlock
                         break;
                 }
             }
+            else
+            {
+                switch (e.Command)
+                {
+                    case Pebble.MediaControls.PlayPause:
+                        MediaControl.PlayPause();
+                        break;
+                    case Pebble.MediaControls.Forward:
+                        MediaControl.Next();
+                        break;
+                    case Pebble.MediaControls.Previous:
+                        MediaControl.Prev();
+                        break;
+                }
+            }
         }
 
         void pebble_OnDisconnect(object sender, EventArgs e)

@@ -57,6 +57,7 @@
     <Compile Include="Flintlock.Designer.cs">
       <DependentUpon>Flintlock.cs</DependentUpon>
     </Compile>
+    <Compile Include="MediaControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Flintlock.resx">
