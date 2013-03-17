@@ -94,5 +94,17 @@ namespace flintlock.Properties {
                 this["MinimizeToTray"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("COM")]
+        public string LastKnownPebblePort {
+            get {
+                return ((string)(this["LastKnownPebblePort"]));
+            }
+            set {
+                this["LastKnownPebblePort"] = value;
+            }
+        }
     }
 }

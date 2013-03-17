@@ -20,5 +20,8 @@
     <Setting Name="MinimizeToTray" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="LastKnownPebblePort" Type="System.String" Scope="User">
+      <Value Profile="(Default)">COM</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

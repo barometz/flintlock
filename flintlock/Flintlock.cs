@@ -37,7 +37,6 @@ namespace flintlock
 
         private void ScanForPebbles()
         {
-            
             List<Pebble> peblist = Pebble.DetectPebbles();
             Updater updater = new Updater(UpdatePebbleList);
             if (PebbleList.InvokeRequired || Connect.InvokeRequired || Scan.InvokeRequired)
@@ -52,16 +51,41 @@ namespace flintlock
 
         private void UpdatePebbleList(List<Pebble> pebbles)
         {
+            Pebble autocon = null;
             if (pebbles.Count > 0)
             {
                 foreach (Pebble peb in pebbles)
                 {
                     PebbleList.Items.Add(peb);
+                    if (peb.PebbleID == Properties.Settings.Default.LastKnownPebble
+                        && peb.Port == Properties.Settings.Default.LastKnownPebblePort)
+                    {
+                        autocon = peb;
+                    }
                 }
                 PebbleList.Enabled = true;
                 PebbleList.SelectedIndex = 0;
                 Connect.Enabled = true;
                 Scan.Enabled = true;
+
+                if (autocon != null
+                    && Properties.Settings.Default.Autoconnect)
+                {
+                    PebbleList.SelectedItem = autocon;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        try
+                        {
+                            Thread.Sleep(1500);
+                            ConnectToSelectedPebble();
+                            break;
+                        }
+                        catch (IOException)
+                        {
+                        }
+                    }
+                }
+
             }
         }
 
@@ -74,20 +98,26 @@ namespace flintlock
             }
             else
             {
-                pebble = PebbleList.SelectedItem as Pebble;
-                if (pebble != null)
+                ConnectToSelectedPebble();
+            }
+        }
+
+        void ConnectToSelectedPebble()
+        {
+            pebble = PebbleList.SelectedItem as Pebble;
+            if (pebble != null)
+            {
+                pebble.OnConnect += pebble_OnConnect;
+                pebble.OnDisconnect += pebble_OnDisconnect;
+                pebble.MediaControlReceived += pebble_MediaControlReceived;
+                try
                 {
-                    pebble.OnConnect += pebble_OnConnect;
-                    pebble.OnDisconnect += pebble_OnDisconnect;
-                    pebble.MediaControlReceived += pebble_MediaControlReceived;
-                    try
-                    {
-                        pebble.Connect();
-                    }
-                    catch (IOException)
-                    {
-                        MessageBox.Show("Fail.");
-                    }
+                    pebble.Connect();
+                }
+                catch (IOException e)
+                {
+                    MessageBox.Show("Failed to connect: " + e.Message);
+                    pebble = null;
                 }
             }
         }
@@ -131,6 +161,7 @@ namespace flintlock
             pebbleNameToolStripMenuItem.Text = "Disconnected";
             disconnectToolStripMenuItem.Enabled = false;
             notifyIcon.Text = "Disconnected";
+            ResetVersionInfo();
         }
 
         void pebble_OnConnect(object sender, EventArgs e)
@@ -141,9 +172,9 @@ namespace flintlock
             try
             {
                 pebble.GetVersion();
-                FWVersion.Text = "Firmware: \n" + pebble.Firmware.ToString();
-                RecoveryVersion.Text = "Recovery: \n" + pebble.RecoveryFirmware.ToString();
+                SetVersionInfo();
                 Properties.Settings.Default.LastKnownPebble = pebble.PebbleID;
+                Properties.Settings.Default.LastKnownPebblePort = pebble.Port;
                 // Don't really like saving *all* settings here
                 Properties.Settings.Default.Save();
                 pebbleNameToolStripMenuItem.Text = pebble.ToString();
@@ -154,20 +185,41 @@ namespace flintlock
             catch (TimeoutException err)
             {
                 pebble.Disconnect();
-                var result = MessageBox.Show(err.Message, "Connection timeout", 
-                    MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-                if (result == System.Windows.Forms.DialogResult.Retry)
-                {
-                    // This doesn't actually work yet, it seems.  Possibly an issue in flint.
-                    pebble.Connect();
-                }
+                MessageBox.Show(err.Message, "Connection timeout", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                pebble = null;
             }
             catch (InvalidOperationException err)
             {
                 pebble.Disconnect();
                 MessageBox.Show(err.Message + "\nTry scanning again.", "Connection failed", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                pebble = null;
             }
+        }
+
+        private void SetVersionInfo()
+        {
+            FWMainVersion.Text = pebble.Firmware.Version + ", commit " + pebble.Firmware.Commit;
+            FWMainTimestamp.Text = pebble.Firmware.Timestamp.ToString();
+            FWMainHWPlatform.Text = pebble.Firmware.HardwarePlatform.ToString();
+            FWMainMetadataVersion.Text = pebble.Firmware.MetadataVersion.ToString();
+            FWRecovVersion.Text = pebble.RecoveryFirmware.Version + ", commit " + pebble.Firmware.Commit;
+            FWRecovTimestamp.Text = pebble.RecoveryFirmware.Timestamp.ToString();
+            FWRecovHWPlatform.Text = pebble.RecoveryFirmware.HardwarePlatform.ToString();
+            FWRecovMetadataVersion.Text = pebble.RecoveryFirmware.MetadataVersion.ToString();
+        }
+
+        private void ResetVersionInfo()
+        {
+            FWMainVersion.ResetText();
+            FWMainTimestamp.ResetText();
+            FWMainHWPlatform.ResetText();
+            FWMainMetadataVersion.ResetText();
+            FWRecovVersion.ResetText();
+            FWRecovTimestamp.ResetText();
+            FWRecovHWPlatform.ResetText();
+            FWRecovMetadataVersion.ResetText();
         }
 
         private void WatchfacePic_Click(object sender, EventArgs e)
@@ -232,6 +284,11 @@ namespace flintlock
         {
             this.Show();
             this.WindowState = FormWindowState.Normal;
+        }
+
+        private void Flintlock_Load(object sender, EventArgs e)
+        {
+
         }
 
     }
