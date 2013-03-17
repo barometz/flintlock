@@ -21,7 +21,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="LastKnownPebblePort" Type="System.String" Scope="User">
-      <Value Profile="(Default)">COM</Value>
+      <Value Profile="(Default)">COM0</Value>
     </Setting>
   </Settings>
 </SettingsFile>

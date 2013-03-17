@@ -97,7 +97,7 @@ namespace flintlock.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("COM")]
+        [global::System.Configuration.DefaultSettingValueAttribute("COM0")]
         public string LastKnownPebblePort {
             get {
                 return ((string)(this["LastKnownPebblePort"]));

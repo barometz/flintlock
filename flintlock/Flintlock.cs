@@ -156,6 +156,7 @@ namespace flintlock
 
         void pebble_OnDisconnect(object sender, EventArgs e)
         {
+            Scan.Enabled = true;
             WatchfacePic.Image = Properties.Resources.watchface_off;
             Connect.Text = "&Connect";
             pebbleNameToolStripMenuItem.Text = "Disconnected";
@@ -172,6 +173,7 @@ namespace flintlock
             try
             {
                 pebble.GetVersion();
+                Scan.Enabled = false;
                 SetVersionInfo();
                 Properties.Settings.Default.LastKnownPebble = pebble.PebbleID;
                 Properties.Settings.Default.LastKnownPebblePort = pebble.Port;
@@ -286,9 +288,13 @@ namespace flintlock
             this.WindowState = FormWindowState.Normal;
         }
 
-        private void Flintlock_Load(object sender, EventArgs e)
+        private void Flintlock_Shown(object sender, EventArgs e)
         {
-
+            if (Properties.Settings.Default.Autoconnect
+                && Properties.Settings.Default.LastKnownPebble != "0000")
+            {
+                ScanForPebbles();
+            }
         }
 
     }

@@ -68,6 +68,7 @@
             this.disconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label3 = new System.Windows.Forms.Label();
             this.MinToTray = new System.Windows.Forms.CheckBox();
             this.Autoconnect = new System.Windows.Forms.CheckBox();
             this.ShowInTray = new System.Windows.Forms.CheckBox();
@@ -75,7 +76,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.PPTControlchk = new System.Windows.Forms.CheckBox();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -228,7 +228,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(26, 30);
+            this.label2.Location = new System.Drawing.Point(26, 151);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(131, 17);
             this.label2.TabIndex = 7;
@@ -237,7 +237,7 @@
             // ReloadSettings
             // 
             this.ReloadSettings.AutoSize = true;
-            this.ReloadSettings.Location = new System.Drawing.Point(110, 183);
+            this.ReloadSettings.Location = new System.Drawing.Point(87, 199);
             this.ReloadSettings.Name = "ReloadSettings";
             this.ReloadSettings.Size = new System.Drawing.Size(75, 27);
             this.ReloadSettings.TabIndex = 3;
@@ -248,7 +248,7 @@
             // Defaults
             // 
             this.Defaults.AutoSize = true;
-            this.Defaults.Location = new System.Drawing.Point(191, 183);
+            this.Defaults.Location = new System.Drawing.Point(339, 199);
             this.Defaults.Name = "Defaults";
             this.Defaults.Size = new System.Drawing.Size(75, 27);
             this.Defaults.TabIndex = 4;
@@ -259,7 +259,7 @@
             // Apply
             // 
             this.Apply.AutoSize = true;
-            this.Apply.Location = new System.Drawing.Point(29, 183);
+            this.Apply.Location = new System.Drawing.Point(6, 199);
             this.Apply.Name = "Apply";
             this.Apply.Size = new System.Drawing.Size(75, 27);
             this.Apply.TabIndex = 2;
@@ -514,6 +514,16 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::flintlock.Properties.Settings.Default, "LastKnownPebblePort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.label3.Location = new System.Drawing.Point(210, 151);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(47, 17);
+            this.label3.TabIndex = 10;
+            this.label3.Text = global::flintlock.Properties.Settings.Default.LastKnownPebblePort;
+            // 
             // MinToTray
             // 
             this.MinToTray.AutoSize = true;
@@ -522,7 +532,7 @@
             this.MinToTray.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::flintlock.Properties.Settings.Default, "MinimizeToTray", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.MinToTray.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", global::flintlock.Properties.Settings.Default, "ShowInTray", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.MinToTray.Enabled = global::flintlock.Properties.Settings.Default.ShowInTray;
-            this.MinToTray.Location = new System.Drawing.Point(29, 131);
+            this.MinToTray.Location = new System.Drawing.Point(29, 100);
             this.MinToTray.Name = "MinToTray";
             this.MinToTray.Size = new System.Drawing.Size(128, 21);
             this.MinToTray.TabIndex = 9;
@@ -534,7 +544,7 @@
             this.Autoconnect.AutoSize = true;
             this.Autoconnect.Checked = global::flintlock.Properties.Settings.Default.Autoconnect;
             this.Autoconnect.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::flintlock.Properties.Settings.Default, "Autoconnect", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.Autoconnect.Location = new System.Drawing.Point(6, 6);
+            this.Autoconnect.Location = new System.Drawing.Point(6, 127);
             this.Autoconnect.Name = "Autoconnect";
             this.Autoconnect.Size = new System.Drawing.Size(243, 21);
             this.Autoconnect.TabIndex = 5;
@@ -547,7 +557,7 @@
             this.ShowInTray.Checked = global::flintlock.Properties.Settings.Default.ShowInTray;
             this.ShowInTray.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ShowInTray.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::flintlock.Properties.Settings.Default, "ShowInTray", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.ShowInTray.Location = new System.Drawing.Point(6, 104);
+            this.ShowInTray.Location = new System.Drawing.Point(6, 73);
             this.ShowInTray.Name = "ShowInTray";
             this.ShowInTray.Size = new System.Drawing.Size(122, 21);
             this.ShowInTray.TabIndex = 8;
@@ -561,7 +571,7 @@
             this.MediaControlchk.Checked = global::flintlock.Properties.Settings.Default.MediaControl;
             this.MediaControlchk.CheckState = System.Windows.Forms.CheckState.Checked;
             this.MediaControlchk.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::flintlock.Properties.Settings.Default, "MediaControl", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.MediaControlchk.Location = new System.Drawing.Point(6, 77);
+            this.MediaControlchk.Location = new System.Drawing.Point(6, 6);
             this.MediaControlchk.Name = "MediaControlchk";
             this.MediaControlchk.Size = new System.Drawing.Size(177, 21);
             this.MediaControlchk.TabIndex = 1;
@@ -572,7 +582,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::flintlock.Properties.Settings.Default, "LastKnownPebble", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.label1.Location = new System.Drawing.Point(163, 30);
+            this.label1.Location = new System.Drawing.Point(163, 151);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(40, 17);
             this.label1.TabIndex = 6;
@@ -584,7 +594,7 @@
             this.PPTControlchk.Checked = global::flintlock.Properties.Settings.Default.PPTControl;
             this.PPTControlchk.CheckState = System.Windows.Forms.CheckState.Checked;
             this.PPTControlchk.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::flintlock.Properties.Settings.Default, "PPTControl", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.PPTControlchk.Location = new System.Drawing.Point(6, 50);
+            this.PPTControlchk.Location = new System.Drawing.Point(6, 33);
             this.PPTControlchk.Name = "PPTControlchk";
             this.PPTControlchk.Size = new System.Drawing.Size(411, 21);
             this.PPTControlchk.TabIndex = 0;
@@ -599,16 +609,6 @@
             this.notifyIcon.Visible = global::flintlock.Properties.Settings.Default.ShowInTray;
             this.notifyIcon.DoubleClick += new System.EventHandler(this.notifyIcon_DoubleClick);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::flintlock.Properties.Settings.Default, "LastKnownPebblePort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.label3.Location = new System.Drawing.Point(210, 30);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(39, 17);
-            this.label3.TabIndex = 10;
-            this.label3.Text = global::flintlock.Properties.Settings.Default.LastKnownPebblePort;
-            // 
             // Flintlock
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -621,7 +621,7 @@
             this.MaximizeBox = false;
             this.Name = "Flintlock";
             this.Text = "Flintlock";
-            this.Load += new System.EventHandler(this.Flintlock_Load);
+            this.Shown += new System.EventHandler(this.Flintlock_Shown);
             this.Resize += new System.EventHandler(this.Flintlock_Resize);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
