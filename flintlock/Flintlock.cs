@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using flint;
 
+
 namespace flintlock
 {
+    
+
     public partial class Flintlock : Form
     {
         delegate void Updater(List<Pebble> pebbles);
@@ -76,6 +81,7 @@ namespace flintlock
                 {
                     pebble.OnConnect += pebble_OnConnect;
                     pebble.OnDisconnect += pebble_OnDisconnect;
+                    pebble.MediaControlReceived += pebble_MediaControlReceived;
                     try
                     {
                         pebble.Connect();
@@ -84,6 +90,23 @@ namespace flintlock
                     {
                         MessageBox.Show("Fail.");
                     }
+                }
+            }
+        }
+
+        void pebble_MediaControlReceived(object sender, MediaControlReceivedEventArgs e)
+        {
+            Process[] ppts = Process.GetProcessesByName("POWERPNT");
+            if (ppts.Count() > 0)
+            {
+                switch (e.Command)
+                {
+                    case Pebble.MediaControls.Forward:
+                        SendKeys.SendWait(" ");
+                        break;
+                    case Pebble.MediaControls.Previous:
+                        SendKeys.SendWait("{LEFT}");
+                        break;
                 }
             }
         }
