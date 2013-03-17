@@ -15,8 +15,6 @@ using flint;
 
 namespace flintlock
 {
-    
-
     public partial class Flintlock : Form
     {
         delegate void Updater(List<Pebble> pebbles);
@@ -96,8 +94,8 @@ namespace flintlock
 
         void pebble_MediaControlReceived(object sender, MediaControlReceivedEventArgs e)
         {
-            Process[] ppts = Process.GetProcessesByName("POWERPNT");
-            if (ppts.Count() > 0)
+            if (Properties.Settings.Default.PPTControl
+                && Process.GetProcessesByName("POWERPNT").Count() > 0)
             {
                 switch (e.Command)
                 {
@@ -109,7 +107,7 @@ namespace flintlock
                         break;
                 }
             }
-            else
+            else if (Properties.Settings.Default.MediaControl)
             {
                 switch (e.Command)
                 {
@@ -130,6 +128,9 @@ namespace flintlock
         {
             WatchfacePic.Image = Properties.Resources.watchface_off;
             Connect.Text = "&Connect";
+            pebbleNameToolStripMenuItem.Text = "Disconnected";
+            disconnectToolStripMenuItem.Enabled = false;
+            notifyIcon.Text = "Disconnected";
         }
 
         void pebble_OnConnect(object sender, EventArgs e)
@@ -142,6 +143,12 @@ namespace flintlock
                 pebble.GetVersion();
                 FWVersion.Text = "Firmware: \n" + pebble.Firmware.ToString();
                 RecoveryVersion.Text = "Recovery: \n" + pebble.RecoveryFirmware.ToString();
+                Properties.Settings.Default.LastKnownPebble = pebble.PebbleID;
+                // Don't really like saving *all* settings here
+                Properties.Settings.Default.Save();
+                pebbleNameToolStripMenuItem.Text = pebble.ToString();
+                disconnectToolStripMenuItem.Enabled = true;
+                notifyIcon.Text = "Connected (" + pebble.PebbleID + ")";
             }
             // Some stuff that can go wrong while connecting...
             catch (TimeoutException err)
@@ -169,6 +176,62 @@ namespace flintlock
             {
                 pebble.Ping(async: true);
             }
+        }
+
+        private void Save_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Save();
+        }
+
+        private void ReloadSettings_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reload();
+        }
+
+        private void Defaults_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reset();
+        }
+
+        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pebble.Disconnect();
+        }
+
+        private void Flintlock_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized
+                && Properties.Settings.Default.ShowInTray
+                && Properties.Settings.Default.MinimizeToTray)
+            {
+                this.Hide();
+            }
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void ShowInTray_CheckedChanged(object sender, EventArgs e)
+        {
+            notifyIcon.Visible = ShowInTray.Checked;
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (pebble != null)
+            {
+                pebble.Disconnect();
+            }
+            this.Close();
+        }
+
+        private void notifyIcon_DoubleClick(object sender, EventArgs e)
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
         }
 
     }

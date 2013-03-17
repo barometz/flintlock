@@ -22,5 +22,77 @@ namespace flintlock.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PPTControl {
+            get {
+                return ((bool)(this["PPTControl"]));
+            }
+            set {
+                this["PPTControl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MediaControl {
+            get {
+                return ((bool)(this["MediaControl"]));
+            }
+            set {
+                this["MediaControl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Autoconnect {
+            get {
+                return ((bool)(this["Autoconnect"]));
+            }
+            set {
+                this["Autoconnect"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0000")]
+        public string LastKnownPebble {
+            get {
+                return ((string)(this["LastKnownPebble"]));
+            }
+            set {
+                this["LastKnownPebble"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowInTray {
+            get {
+                return ((bool)(this["ShowInTray"]));
+            }
+            set {
+                this["ShowInTray"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MinimizeToTray {
+            get {
+                return ((bool)(this["MinimizeToTray"]));
+            }
+            set {
+                this["MinimizeToTray"] = value;
+            }
+        }
     }
 }
