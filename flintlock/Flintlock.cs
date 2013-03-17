@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using flint;
@@ -89,20 +84,31 @@ namespace flintlock
             }
         }
 
-        private void Connect_Click(object sender, EventArgs e)
+        private void SetVersionInfo()
         {
-            if (pebble != null)
-            {
-                pebble.Disconnect();
-                pebble = null;
-            }
-            else
-            {
-                ConnectToSelectedPebble();
-            }
+            FWMainVersion.Text = pebble.Firmware.Version + ", commit " + pebble.Firmware.Commit;
+            FWMainTimestamp.Text = pebble.Firmware.Timestamp.ToString();
+            FWMainHWPlatform.Text = pebble.Firmware.HardwarePlatform.ToString();
+            FWMainMetadataVersion.Text = pebble.Firmware.MetadataVersion.ToString();
+            FWRecovVersion.Text = pebble.RecoveryFirmware.Version + ", commit " + pebble.Firmware.Commit;
+            FWRecovTimestamp.Text = pebble.RecoveryFirmware.Timestamp.ToString();
+            FWRecovHWPlatform.Text = pebble.RecoveryFirmware.HardwarePlatform.ToString();
+            FWRecovMetadataVersion.Text = pebble.RecoveryFirmware.MetadataVersion.ToString();
         }
 
-        void ConnectToSelectedPebble()
+        private void ResetVersionInfo()
+        {
+            FWMainVersion.ResetText();
+            FWMainTimestamp.ResetText();
+            FWMainHWPlatform.ResetText();
+            FWMainMetadataVersion.ResetText();
+            FWRecovVersion.ResetText();
+            FWRecovTimestamp.ResetText();
+            FWRecovHWPlatform.ResetText();
+            FWRecovMetadataVersion.ResetText();
+        }
+
+        private void ConnectToSelectedPebble()
         {
             pebble = PebbleList.SelectedItem as Pebble;
             if (pebble != null)
@@ -122,7 +128,20 @@ namespace flintlock
             }
         }
 
-        void pebble_MediaControlReceived(object sender, MediaControlReceivedEventArgs e)
+        private void Connect_Click(object sender, EventArgs e)
+        {
+            if (pebble != null)
+            {
+                pebble.Disconnect();
+                pebble = null;
+            }
+            else
+            {
+                ConnectToSelectedPebble();
+            }
+        }
+
+        private void pebble_MediaControlReceived(object sender, MediaControlReceivedEventArgs e)
         {
             if (Properties.Settings.Default.PPTControl
                 && Process.GetProcessesByName("POWERPNT").Count() > 0)
@@ -154,7 +173,7 @@ namespace flintlock
             }
         }
 
-        void pebble_OnDisconnect(object sender, EventArgs e)
+        private void pebble_OnDisconnect(object sender, EventArgs e)
         {
             Scan.Enabled = true;
             WatchfacePic.Image = Properties.Resources.watchface_off;
@@ -165,7 +184,7 @@ namespace flintlock
             ResetVersionInfo();
         }
 
-        void pebble_OnConnect(object sender, EventArgs e)
+        private void pebble_OnConnect(object sender, EventArgs e)
         {
             WatchfacePic.Image = Properties.Resources.watchface;
             Connect.Text = "Dis&connect";
@@ -198,30 +217,6 @@ namespace flintlock
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 pebble = null;
             }
-        }
-
-        private void SetVersionInfo()
-        {
-            FWMainVersion.Text = pebble.Firmware.Version + ", commit " + pebble.Firmware.Commit;
-            FWMainTimestamp.Text = pebble.Firmware.Timestamp.ToString();
-            FWMainHWPlatform.Text = pebble.Firmware.HardwarePlatform.ToString();
-            FWMainMetadataVersion.Text = pebble.Firmware.MetadataVersion.ToString();
-            FWRecovVersion.Text = pebble.RecoveryFirmware.Version + ", commit " + pebble.Firmware.Commit;
-            FWRecovTimestamp.Text = pebble.RecoveryFirmware.Timestamp.ToString();
-            FWRecovHWPlatform.Text = pebble.RecoveryFirmware.HardwarePlatform.ToString();
-            FWRecovMetadataVersion.Text = pebble.RecoveryFirmware.MetadataVersion.ToString();
-        }
-
-        private void ResetVersionInfo()
-        {
-            FWMainVersion.ResetText();
-            FWMainTimestamp.ResetText();
-            FWMainHWPlatform.ResetText();
-            FWMainMetadataVersion.ResetText();
-            FWRecovVersion.ResetText();
-            FWRecovTimestamp.ResetText();
-            FWRecovHWPlatform.ResetText();
-            FWRecovMetadataVersion.ResetText();
         }
 
         private void WatchfacePic_Click(object sender, EventArgs e)
