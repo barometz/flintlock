@@ -39,8 +39,15 @@
             this.WatchfacePic = new System.Windows.Forms.PictureBox();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.SettingsPage = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
+            this.LastKnownPebblePort = new System.Windows.Forms.Label();
+            this.MinToTray = new System.Windows.Forms.CheckBox();
+            this.Autoconnect = new System.Windows.Forms.CheckBox();
+            this.ShowInTray = new System.Windows.Forms.CheckBox();
+            this.MediaControlchk = new System.Windows.Forms.CheckBox();
+            this.tagLastKnownPebble = new System.Windows.Forms.Label();
             this.ReloadSettings = new System.Windows.Forms.Button();
+            this.LastKnownPebbleID = new System.Windows.Forms.Label();
+            this.PPTControlchk = new System.Windows.Forms.CheckBox();
             this.Defaults = new System.Windows.Forms.Button();
             this.Apply = new System.Windows.Forms.Button();
             this.FirmwarePage = new System.Windows.Forms.TabPage();
@@ -54,7 +61,7 @@
             this.tagFWMainTimestamp = new System.Windows.Forms.Label();
             this.FWMainVersion = new System.Windows.Forms.Label();
             this.tagFWMainVersion = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.RecovFWBox = new System.Windows.Forms.GroupBox();
             this.FWRecovMetadataVersion = new System.Windows.Forms.Label();
             this.tagFWRecovMetadataVersion = new System.Windows.Forms.Label();
             this.FWRecovHWPlatform = new System.Windows.Forms.Label();
@@ -68,13 +75,6 @@
             this.disconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label3 = new System.Windows.Forms.Label();
-            this.MinToTray = new System.Windows.Forms.CheckBox();
-            this.Autoconnect = new System.Windows.Forms.CheckBox();
-            this.ShowInTray = new System.Windows.Forms.CheckBox();
-            this.MediaControlchk = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.PPTControlchk = new System.Windows.Forms.CheckBox();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -91,7 +91,7 @@
             this.FirmwareContainer.Panel2.SuspendLayout();
             this.FirmwareContainer.SuspendLayout();
             this.MainFWBox.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.RecovFWBox.SuspendLayout();
             this.notificationMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -206,14 +206,14 @@
             // 
             // SettingsPage
             // 
-            this.SettingsPage.Controls.Add(this.label3);
+            this.SettingsPage.Controls.Add(this.LastKnownPebblePort);
             this.SettingsPage.Controls.Add(this.MinToTray);
             this.SettingsPage.Controls.Add(this.Autoconnect);
             this.SettingsPage.Controls.Add(this.ShowInTray);
             this.SettingsPage.Controls.Add(this.MediaControlchk);
-            this.SettingsPage.Controls.Add(this.label2);
+            this.SettingsPage.Controls.Add(this.tagLastKnownPebble);
             this.SettingsPage.Controls.Add(this.ReloadSettings);
-            this.SettingsPage.Controls.Add(this.label1);
+            this.SettingsPage.Controls.Add(this.LastKnownPebbleID);
             this.SettingsPage.Controls.Add(this.PPTControlchk);
             this.SettingsPage.Controls.Add(this.Defaults);
             this.SettingsPage.Controls.Add(this.Apply);
@@ -225,14 +225,78 @@
             this.SettingsPage.Text = "Settings";
             this.SettingsPage.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // LastKnownPebblePort
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(26, 151);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(131, 17);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Last known Pebble:";
+            this.LastKnownPebblePort.AutoSize = true;
+            this.LastKnownPebblePort.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::flintlock.Properties.Settings.Default, "LastKnownPebblePort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.LastKnownPebblePort.Location = new System.Drawing.Point(210, 151);
+            this.LastKnownPebblePort.Name = "LastKnownPebblePort";
+            this.LastKnownPebblePort.Size = new System.Drawing.Size(47, 17);
+            this.LastKnownPebblePort.TabIndex = 10;
+            this.LastKnownPebblePort.Text = global::flintlock.Properties.Settings.Default.LastKnownPebblePort;
+            // 
+            // MinToTray
+            // 
+            this.MinToTray.AutoSize = true;
+            this.MinToTray.Checked = global::flintlock.Properties.Settings.Default.MinimizeToTray;
+            this.MinToTray.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.MinToTray.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::flintlock.Properties.Settings.Default, "MinimizeToTray", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.MinToTray.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", global::flintlock.Properties.Settings.Default, "ShowInTray", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.MinToTray.Enabled = global::flintlock.Properties.Settings.Default.ShowInTray;
+            this.MinToTray.Location = new System.Drawing.Point(29, 100);
+            this.MinToTray.Name = "MinToTray";
+            this.MinToTray.Size = new System.Drawing.Size(128, 21);
+            this.MinToTray.TabIndex = 9;
+            this.MinToTray.Text = "Minimize to tray";
+            this.MinToTray.UseVisualStyleBackColor = true;
+            // 
+            // Autoconnect
+            // 
+            this.Autoconnect.AutoSize = true;
+            this.Autoconnect.Checked = global::flintlock.Properties.Settings.Default.Autoconnect;
+            this.Autoconnect.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::flintlock.Properties.Settings.Default, "Autoconnect", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.Autoconnect.Location = new System.Drawing.Point(6, 127);
+            this.Autoconnect.Name = "Autoconnect";
+            this.Autoconnect.Size = new System.Drawing.Size(243, 21);
+            this.Autoconnect.TabIndex = 5;
+            this.Autoconnect.Text = "Autoconnect to last known Pebble";
+            this.Autoconnect.UseVisualStyleBackColor = true;
+            // 
+            // ShowInTray
+            // 
+            this.ShowInTray.AutoSize = true;
+            this.ShowInTray.Checked = global::flintlock.Properties.Settings.Default.ShowInTray;
+            this.ShowInTray.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ShowInTray.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::flintlock.Properties.Settings.Default, "ShowInTray", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.ShowInTray.Location = new System.Drawing.Point(6, 73);
+            this.ShowInTray.Name = "ShowInTray";
+            this.ShowInTray.Size = new System.Drawing.Size(122, 21);
+            this.ShowInTray.TabIndex = 8;
+            this.ShowInTray.Text = "Show tray icon";
+            this.ShowInTray.UseVisualStyleBackColor = true;
+            this.ShowInTray.CheckedChanged += new System.EventHandler(this.ShowInTray_CheckedChanged);
+            // 
+            // MediaControlchk
+            // 
+            this.MediaControlchk.AutoSize = true;
+            this.MediaControlchk.Checked = global::flintlock.Properties.Settings.Default.MediaControl;
+            this.MediaControlchk.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.MediaControlchk.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::flintlock.Properties.Settings.Default, "MediaControl", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.MediaControlchk.Location = new System.Drawing.Point(6, 6);
+            this.MediaControlchk.Name = "MediaControlchk";
+            this.MediaControlchk.Size = new System.Drawing.Size(177, 21);
+            this.MediaControlchk.TabIndex = 1;
+            this.MediaControlchk.Text = "Control media playback";
+            this.MediaControlchk.UseVisualStyleBackColor = true;
+            // 
+            // tagLastKnownPebble
+            // 
+            this.tagLastKnownPebble.AutoSize = true;
+            this.tagLastKnownPebble.Location = new System.Drawing.Point(26, 151);
+            this.tagLastKnownPebble.Name = "tagLastKnownPebble";
+            this.tagLastKnownPebble.Size = new System.Drawing.Size(131, 17);
+            this.tagLastKnownPebble.TabIndex = 7;
+            this.tagLastKnownPebble.Text = "Last known Pebble:";
             // 
             // ReloadSettings
             // 
@@ -244,6 +308,29 @@
             this.ReloadSettings.Text = "&Reset";
             this.ReloadSettings.UseVisualStyleBackColor = true;
             this.ReloadSettings.Click += new System.EventHandler(this.ReloadSettings_Click);
+            // 
+            // LastKnownPebbleID
+            // 
+            this.LastKnownPebbleID.AutoSize = true;
+            this.LastKnownPebbleID.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::flintlock.Properties.Settings.Default, "LastKnownPebble", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.LastKnownPebbleID.Location = new System.Drawing.Point(163, 151);
+            this.LastKnownPebbleID.Name = "LastKnownPebbleID";
+            this.LastKnownPebbleID.Size = new System.Drawing.Size(40, 17);
+            this.LastKnownPebbleID.TabIndex = 6;
+            this.LastKnownPebbleID.Text = global::flintlock.Properties.Settings.Default.LastKnownPebble;
+            // 
+            // PPTControlchk
+            // 
+            this.PPTControlchk.AutoSize = true;
+            this.PPTControlchk.Checked = global::flintlock.Properties.Settings.Default.PPTControl;
+            this.PPTControlchk.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.PPTControlchk.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::flintlock.Properties.Settings.Default, "PPTControl", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.PPTControlchk.Location = new System.Drawing.Point(6, 33);
+            this.PPTControlchk.Name = "PPTControlchk";
+            this.PPTControlchk.Size = new System.Drawing.Size(411, 21);
+            this.PPTControlchk.TabIndex = 0;
+            this.PPTControlchk.Text = "Control PowerPoint (blocks media control when PPT is open)";
+            this.PPTControlchk.UseVisualStyleBackColor = true;
             // 
             // Defaults
             // 
@@ -290,7 +377,7 @@
             // 
             // FirmwareContainer.Panel2
             // 
-            this.FirmwareContainer.Panel2.Controls.Add(this.groupBox2);
+            this.FirmwareContainer.Panel2.Controls.Add(this.RecovFWBox);
             this.FirmwareContainer.Size = new System.Drawing.Size(416, 226);
             this.FirmwareContainer.SplitterDistance = 208;
             this.FirmwareContainer.TabIndex = 0;
@@ -385,23 +472,23 @@
             this.tagFWMainVersion.TabIndex = 0;
             this.tagFWMainVersion.Text = "Version";
             // 
-            // groupBox2
+            // RecovFWBox
             // 
-            this.groupBox2.Controls.Add(this.FWRecovMetadataVersion);
-            this.groupBox2.Controls.Add(this.tagFWRecovMetadataVersion);
-            this.groupBox2.Controls.Add(this.FWRecovHWPlatform);
-            this.groupBox2.Controls.Add(this.tagFWRecovHWPlatform);
-            this.groupBox2.Controls.Add(this.FWRecovTimestamp);
-            this.groupBox2.Controls.Add(this.tagFWRecovTimestamp);
-            this.groupBox2.Controls.Add(this.FWRecovVersion);
-            this.groupBox2.Controls.Add(this.tagFWRecovVersion);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(0, 0);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(204, 226);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Recovery";
+            this.RecovFWBox.Controls.Add(this.FWRecovMetadataVersion);
+            this.RecovFWBox.Controls.Add(this.tagFWRecovMetadataVersion);
+            this.RecovFWBox.Controls.Add(this.FWRecovHWPlatform);
+            this.RecovFWBox.Controls.Add(this.tagFWRecovHWPlatform);
+            this.RecovFWBox.Controls.Add(this.FWRecovTimestamp);
+            this.RecovFWBox.Controls.Add(this.tagFWRecovTimestamp);
+            this.RecovFWBox.Controls.Add(this.FWRecovVersion);
+            this.RecovFWBox.Controls.Add(this.tagFWRecovVersion);
+            this.RecovFWBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.RecovFWBox.Location = new System.Drawing.Point(0, 0);
+            this.RecovFWBox.Name = "RecovFWBox";
+            this.RecovFWBox.Size = new System.Drawing.Size(204, 226);
+            this.RecovFWBox.TabIndex = 0;
+            this.RecovFWBox.TabStop = false;
+            this.RecovFWBox.Text = "Recovery";
             // 
             // FWRecovMetadataVersion
             // 
@@ -514,93 +601,6 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::flintlock.Properties.Settings.Default, "LastKnownPebblePort", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.label3.Location = new System.Drawing.Point(210, 151);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 17);
-            this.label3.TabIndex = 10;
-            this.label3.Text = global::flintlock.Properties.Settings.Default.LastKnownPebblePort;
-            // 
-            // MinToTray
-            // 
-            this.MinToTray.AutoSize = true;
-            this.MinToTray.Checked = global::flintlock.Properties.Settings.Default.MinimizeToTray;
-            this.MinToTray.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.MinToTray.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::flintlock.Properties.Settings.Default, "MinimizeToTray", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.MinToTray.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", global::flintlock.Properties.Settings.Default, "ShowInTray", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.MinToTray.Enabled = global::flintlock.Properties.Settings.Default.ShowInTray;
-            this.MinToTray.Location = new System.Drawing.Point(29, 100);
-            this.MinToTray.Name = "MinToTray";
-            this.MinToTray.Size = new System.Drawing.Size(128, 21);
-            this.MinToTray.TabIndex = 9;
-            this.MinToTray.Text = "Minimize to tray";
-            this.MinToTray.UseVisualStyleBackColor = true;
-            // 
-            // Autoconnect
-            // 
-            this.Autoconnect.AutoSize = true;
-            this.Autoconnect.Checked = global::flintlock.Properties.Settings.Default.Autoconnect;
-            this.Autoconnect.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::flintlock.Properties.Settings.Default, "Autoconnect", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.Autoconnect.Location = new System.Drawing.Point(6, 127);
-            this.Autoconnect.Name = "Autoconnect";
-            this.Autoconnect.Size = new System.Drawing.Size(243, 21);
-            this.Autoconnect.TabIndex = 5;
-            this.Autoconnect.Text = "Autoconnect to last known Pebble";
-            this.Autoconnect.UseVisualStyleBackColor = true;
-            // 
-            // ShowInTray
-            // 
-            this.ShowInTray.AutoSize = true;
-            this.ShowInTray.Checked = global::flintlock.Properties.Settings.Default.ShowInTray;
-            this.ShowInTray.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ShowInTray.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::flintlock.Properties.Settings.Default, "ShowInTray", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.ShowInTray.Location = new System.Drawing.Point(6, 73);
-            this.ShowInTray.Name = "ShowInTray";
-            this.ShowInTray.Size = new System.Drawing.Size(122, 21);
-            this.ShowInTray.TabIndex = 8;
-            this.ShowInTray.Text = "Show tray icon";
-            this.ShowInTray.UseVisualStyleBackColor = true;
-            this.ShowInTray.CheckedChanged += new System.EventHandler(this.ShowInTray_CheckedChanged);
-            // 
-            // MediaControlchk
-            // 
-            this.MediaControlchk.AutoSize = true;
-            this.MediaControlchk.Checked = global::flintlock.Properties.Settings.Default.MediaControl;
-            this.MediaControlchk.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.MediaControlchk.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::flintlock.Properties.Settings.Default, "MediaControl", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.MediaControlchk.Location = new System.Drawing.Point(6, 6);
-            this.MediaControlchk.Name = "MediaControlchk";
-            this.MediaControlchk.Size = new System.Drawing.Size(177, 21);
-            this.MediaControlchk.TabIndex = 1;
-            this.MediaControlchk.Text = "Control media playback";
-            this.MediaControlchk.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::flintlock.Properties.Settings.Default, "LastKnownPebble", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.label1.Location = new System.Drawing.Point(163, 151);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 17);
-            this.label1.TabIndex = 6;
-            this.label1.Text = global::flintlock.Properties.Settings.Default.LastKnownPebble;
-            // 
-            // PPTControlchk
-            // 
-            this.PPTControlchk.AutoSize = true;
-            this.PPTControlchk.Checked = global::flintlock.Properties.Settings.Default.PPTControl;
-            this.PPTControlchk.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.PPTControlchk.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::flintlock.Properties.Settings.Default, "PPTControl", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.PPTControlchk.Location = new System.Drawing.Point(6, 33);
-            this.PPTControlchk.Name = "PPTControlchk";
-            this.PPTControlchk.Size = new System.Drawing.Size(411, 21);
-            this.PPTControlchk.TabIndex = 0;
-            this.PPTControlchk.Text = "Control PowerPoint (blocks media control when PPT is open)";
-            this.PPTControlchk.UseVisualStyleBackColor = true;
-            // 
             // notifyIcon
             // 
             this.notifyIcon.ContextMenuStrip = this.notificationMenu;
@@ -642,8 +642,8 @@
             this.FirmwareContainer.ResumeLayout(false);
             this.MainFWBox.ResumeLayout(false);
             this.MainFWBox.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.RecovFWBox.ResumeLayout(false);
+            this.RecovFWBox.PerformLayout();
             this.notificationMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -664,8 +664,8 @@
         private System.Windows.Forms.Button ReloadSettings;
         private System.Windows.Forms.CheckBox Autoconnect;
         private System.Windows.Forms.Button Defaults;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label tagLastKnownPebble;
+        private System.Windows.Forms.Label LastKnownPebbleID;
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ContextMenuStrip notificationMenu;
         private System.Windows.Forms.ToolStripMenuItem pebbleNameToolStripMenuItem;
@@ -679,7 +679,7 @@
         private System.Windows.Forms.TabPage FirmwarePage;
         private System.Windows.Forms.SplitContainer FirmwareContainer;
         private System.Windows.Forms.GroupBox MainFWBox;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox RecovFWBox;
         private System.Windows.Forms.Label FWMainMetadataVersion;
         private System.Windows.Forms.Label tagFWMainMetadataVersion;
         private System.Windows.Forms.Label FWMainHWPlatform;
@@ -696,7 +696,7 @@
         private System.Windows.Forms.Label tagFWRecovTimestamp;
         private System.Windows.Forms.Label FWRecovVersion;
         private System.Windows.Forms.Label tagFWRecovVersion;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label LastKnownPebblePort;
 
 
     }
