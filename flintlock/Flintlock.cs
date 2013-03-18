@@ -40,7 +40,7 @@ namespace flintlock
             FWMainTimestamp.Text = pebble.Firmware.Timestamp.ToString();
             FWMainHWPlatform.Text = pebble.Firmware.HardwarePlatform.ToString();
             FWMainMetadataVersion.Text = pebble.Firmware.MetadataVersion.ToString();
-            FWRecovVersion.Text = pebble.RecoveryFirmware.Version + ", commit " + pebble.Firmware.Commit;
+            FWRecovVersion.Text = pebble.RecoveryFirmware.Version + ", commit " + pebble.RecoveryFirmware.Commit;
             FWRecovTimestamp.Text = pebble.RecoveryFirmware.Timestamp.ToString();
             FWRecovHWPlatform.Text = pebble.RecoveryFirmware.HardwarePlatform.ToString();
             FWRecovMetadataVersion.Text = pebble.RecoveryFirmware.MetadataVersion.ToString();
@@ -77,6 +77,11 @@ namespace flintlock
                     pebble.Connect();
                 }
                 catch (IOException e)
+                {
+                    MessageBox.Show("Failed to connect: " + e.Message);
+                    pebble = null;
+                }
+                catch (UnauthorizedAccessException e)
                 {
                     MessageBox.Show("Failed to connect: " + e.Message);
                     pebble = null;
