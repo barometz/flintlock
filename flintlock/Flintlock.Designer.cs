@@ -621,6 +621,7 @@
             this.MaximizeBox = false;
             this.Name = "Flintlock";
             this.Text = "Flintlock";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Flintlock_FormClosed);
             this.Shown += new System.EventHandler(this.Flintlock_Shown);
             this.Resize += new System.EventHandler(this.Flintlock_Resize);
             this.splitContainer1.Panel1.ResumeLayout(false);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -12,80 +13,29 @@ namespace flintlock
 {
     public partial class Flintlock : Form
     {
-        delegate void Updater(List<Pebble> pebbles);
+        BackgroundWorker listUpdateWorker;
+        delegate void UIUpdater();
+
         Pebble pebble;
 
         public Flintlock()
         {
             InitializeComponent();
+
+            listUpdateWorker = new BackgroundWorker();
+            listUpdateWorker.DoWork += listUpdateWorker_DoWork;
+            listUpdateWorker.RunWorkerCompleted += listUpdateWorker_RunWorkerCompleted;
         }
 
-        private void Scan_Click(object sender, EventArgs e)
-        {
-            PebbleList.Items.Clear();
-            PebbleList.Enabled = false;
-            Connect.Enabled = false;
-            Scan.Enabled = false;
-            Thread peblookup = new Thread(new ThreadStart(ScanForPebbles));
-            peblookup.Start();
-        }
-
-        private void ScanForPebbles()
-        {
-            List<Pebble> peblist = Pebble.DetectPebbles();
-            Updater updater = new Updater(UpdatePebbleList);
-            if (PebbleList.InvokeRequired || Connect.InvokeRequired || Scan.InvokeRequired)
-            {
-                Invoke(updater, peblist);
-            }
-            else
-            {
-                UpdatePebbleList(peblist);
-            }
-        }
-
-        private void UpdatePebbleList(List<Pebble> pebbles)
-        {
-            Pebble autocon = null;
-            if (pebbles.Count > 0)
-            {
-                foreach (Pebble peb in pebbles)
-                {
-                    PebbleList.Items.Add(peb);
-                    if (peb.PebbleID == Properties.Settings.Default.LastKnownPebble
-                        && peb.Port == Properties.Settings.Default.LastKnownPebblePort)
-                    {
-                        autocon = peb;
-                    }
-                }
-                PebbleList.Enabled = true;
-                PebbleList.SelectedIndex = 0;
-                Connect.Enabled = true;
-                Scan.Enabled = true;
-
-                if (autocon != null
-                    && Properties.Settings.Default.Autoconnect)
-                {
-                    PebbleList.SelectedItem = autocon;
-                    for (int i = 0; i < 5; i++)
-                    {
-                        try
-                        {
-                            Thread.Sleep(1500);
-                            ConnectToSelectedPebble();
-                            break;
-                        }
-                        catch (IOException)
-                        {
-                        }
-                    }
-                }
-
-            }
-        }
-
+        /// <summary>
+        /// Set the version info based on the currently connected Pebble.
+        /// </summary>
         private void SetVersionInfo()
         {
+            if (pebble == null)
+            {
+                return;
+            }
             FWMainVersion.Text = pebble.Firmware.Version + ", commit " + pebble.Firmware.Commit;
             FWMainTimestamp.Text = pebble.Firmware.Timestamp.ToString();
             FWMainHWPlatform.Text = pebble.Firmware.HardwarePlatform.ToString();
@@ -96,6 +46,9 @@ namespace flintlock
             FWRecovMetadataVersion.Text = pebble.RecoveryFirmware.MetadataVersion.ToString();
         }
 
+        /// <summary>
+        /// Reset the version info after a disconnect.
+        /// </summary>
         private void ResetVersionInfo()
         {
             FWMainVersion.ResetText();
@@ -108,6 +61,9 @@ namespace flintlock
             FWRecovMetadataVersion.ResetText();
         }
 
+        /// <summary>
+        /// Connect to the Pebble that's currently selected in the combobox, if any.
+        /// </summary>
         private void ConnectToSelectedPebble()
         {
             pebble = PebbleList.SelectedItem as Pebble;
@@ -128,18 +84,81 @@ namespace flintlock
             }
         }
 
-        private void Connect_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Reset the UI to the disconnected state.  To be called through Invoke.
+        /// </summary>
+        private void DisconnectUIUpdate()
         {
-            if (pebble != null)
+            Scan.Enabled = true;
+            WatchfacePic.Image = Properties.Resources.watchface_off;
+            Connect.Text = "&Connect";
+            pebbleNameToolStripMenuItem.Text = "Disconnected";
+            disconnectToolStripMenuItem.Enabled = false;
+            notifyIcon.Text = "Disconnected";
+            ResetVersionInfo();
+            pebble = null;
+        }
+
+        /// <summary>
+        /// UI update after the Pebble autodetect has finished.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void listUpdateWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Pebble autocon = null;
+            var pebbles = e.Result as List<Pebble>;
+            if (pebbles != null && pebbles.Count > 0)
             {
-                pebble.Disconnect();
-                pebble = null;
-            }
-            else
-            {
-                ConnectToSelectedPebble();
+                // Found some Pebbles, let's add them to the combobox
+                foreach (Pebble peb in pebbles)
+                {
+                    PebbleList.Items.Add(peb);
+                    if (peb.PebbleID == Properties.Settings.Default.LastKnownPebble
+                        && peb.Port == Properties.Settings.Default.LastKnownPebblePort)
+                    {
+                        autocon = peb;
+                    }
+                }
+                PebbleList.Enabled = true;
+                PebbleList.SelectedIndex = 0;
+                Connect.Enabled = true;
+                Scan.Enabled = true;
+
+                if (autocon != null
+                    && Properties.Settings.Default.Autoconnect)
+                {
+                    // Autoconnect possible and desired, so let's
+                    PebbleList.SelectedItem = autocon;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        try
+                        {
+                            // Serial comms is awesome.  Try connecting a bunch of times with delays.
+                            ConnectToSelectedPebble();
+                            Thread.Sleep(1500);
+                            break;
+                        }
+                        catch (IOException)
+                        {
+                        }
+                    }
+                }
             }
         }
+
+        /// <summary>
+        /// Background task for Pebble autodetect.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void listUpdateWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            List<Pebble> peblist = Pebble.DetectPebbles();
+            e.Result = peblist;
+        }
+
+        #region Pebble event handlers
 
         private void pebble_MediaControlReceived(object sender, MediaControlReceivedEventArgs e)
         {
@@ -175,17 +194,17 @@ namespace flintlock
 
         private void pebble_OnDisconnect(object sender, EventArgs e)
         {
-            Scan.Enabled = true;
-            WatchfacePic.Image = Properties.Resources.watchface_off;
-            Connect.Text = "&Connect";
-            pebbleNameToolStripMenuItem.Text = "Disconnected";
-            disconnectToolStripMenuItem.Enabled = false;
-            notifyIcon.Text = "Disconnected";
-            ResetVersionInfo();
+            UIUpdater u = new UIUpdater(DisconnectUIUpdate);
+            Invoke(u);
         }
 
         private void pebble_OnConnect(object sender, EventArgs e)
         {
+            // Dirtyfix for when things get out of sync for reasons yet to be found
+            if (pebble == null)
+            {
+                return;
+            }
             WatchfacePic.Image = Properties.Resources.watchface;
             Connect.Text = "Dis&connect";
             PebbleList.Enabled = false;
@@ -219,6 +238,32 @@ namespace flintlock
             }
         }
 
+        #endregion
+
+        #region UI event handlers
+
+        private void Scan_Click(object sender, EventArgs e)
+        {
+            PebbleList.Items.Clear();
+            PebbleList.Enabled = false;
+            Connect.Enabled = false;
+            Scan.Enabled = false;
+            listUpdateWorker.RunWorkerAsync();
+        }
+
+        private void Connect_Click(object sender, EventArgs e)
+        {
+            if (pebble != null)
+            {
+                pebble.Disconnect();
+                pebble = null;
+            }
+            else
+            {
+                ConnectToSelectedPebble();
+            }
+        }
+
         private void WatchfacePic_Click(object sender, EventArgs e)
         {
             if (pebble != null && pebble.Alive)
@@ -247,25 +292,10 @@ namespace flintlock
             pebble.Disconnect();
         }
 
-        private void Flintlock_Resize(object sender, EventArgs e)
-        {
-            if (this.WindowState == FormWindowState.Minimized
-                && Properties.Settings.Default.ShowInTray
-                && Properties.Settings.Default.MinimizeToTray)
-            {
-                this.Hide();
-            }
-        }
-
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Show();
             this.WindowState = FormWindowState.Normal;
-        }
-
-        private void ShowInTray_CheckedChanged(object sender, EventArgs e)
-        {
-            notifyIcon.Visible = ShowInTray.Checked;
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -283,14 +313,42 @@ namespace flintlock
             this.WindowState = FormWindowState.Normal;
         }
 
+        private void ShowInTray_CheckedChanged(object sender, EventArgs e)
+        {
+            // Despite the ApplicationSettings binding this apparently still needs
+            // manual updating.
+            notifyIcon.Visible = ShowInTray.Checked;
+        }
+
+        private void Flintlock_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized
+                && Properties.Settings.Default.ShowInTray
+                && Properties.Settings.Default.MinimizeToTray)
+            {
+                this.Hide();
+            }
+        }
+
         private void Flintlock_Shown(object sender, EventArgs e)
         {
             if (Properties.Settings.Default.Autoconnect
                 && Properties.Settings.Default.LastKnownPebble != "0000")
             {
-                ScanForPebbles();
+                listUpdateWorker.RunWorkerAsync();
             }
         }
 
+        private void Flintlock_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (pebble != null)
+            {
+                pebble.Disconnect();
+            }
+            // Not doing this leaves a tray icon that disappears on mouseover in some setups.
+            notifyIcon.Visible = false;
+        }
+
+        #endregion
     }
 }
