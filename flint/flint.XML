@@ -69,6 +69,11 @@
             </summary>
             <exception cref="T:System.IO.IOException">Passed on when no connection can be made.</exception>
         </member>
+        <member name="M:flint.Pebble.Disconnect">
+            <summary>
+            Disconnect from the Pebble, if a connection existed.
+            </summary>
+        </member>
         <member name="M:flint.Pebble.pingTimer_Elapsed(System.Object,System.Timers.ElapsedEventArgs)">
             <summary> Recurring prod to check whether the Pebble is still connected and responding.
             </summary>
@@ -86,17 +91,19 @@
             <param name="endpoint"></param>
             <param name="handler"></param>
         </member>
+        <member name="M:flint.Pebble.DeregisterEndpointCallback(flint.Pebble.Endpoints,System.EventHandler{flint.MessageReceivedEventArgs})">
+            <summary> Deregister a given callback for a given function. </summary>
+            <param name="endpoint"></param>
+            <param name="handler"></param>
+        </member>
         <member name="M:flint.Pebble.Ping(System.UInt32,System.Boolean)">
-            <summary> Send the Pebble a ping. 
-            </summary>
+            <summary> Send the Pebble a ping. </summary>
             <param name="cookie"></param>
             <param name="async">If true, return null immediately and let the caller wait for a PING event.  If false, 
             wait for the reply and return the PingReceivedEventArgs.</param>
         </member>
         <member name="M:flint.Pebble.Notification(System.Byte,System.String[])">
-            <summary>
-            Generic notification support.  Shouldn't have to use this, but feel free.
-            </summary>
+            <summary> Generic notification support.  Shouldn't have to use this, but feel free. </summary>
             <param name="type">Notification type.  So far we've got 0 for mail, 1 for SMS.</param>
             <param name="parts">Message parts will be clipped to 255 bytes.</param>
         </member>
@@ -115,13 +122,25 @@
             <param name="sender"></param>
             <param name="body"></param>
         </member>
-        <member name="M:flint.Pebble.NowPlaying(System.String,System.String,System.String)">
+        <member name="M:flint.Pebble.SetNowPlaying(System.String,System.String,System.String)">
             <summary> Send "Now playing.." metadata to the Pebble.  
             The track, album and artist should each not be longer than 255 bytes.
             </summary>
             <param name="track"></param>
             <param name="album"></param>
             <param name="artist"></param>
+        </member>
+        <member name="M:flint.Pebble.SetTime(System.DateTime)">
+            <summary> Set the time on the Pebble. Mostly convenient for syncing. </summary>
+            <param name="dt">The desired DateTime.  Doesn't care about timezones.</param>
+        </member>
+        <member name="M:flint.Pebble.BadPing">
+            <summary> Send a malformed ping (to trigger a LOGS response) </summary>
+        </member>
+        <member name="M:flint.Pebble.GetVersion(System.Boolean)">
+            <summary> Get the Pebble's version info.  </summary>
+            <param name="async">If true, return immediately.  If false, wait until the response 
+            has been received.</param>
         </member>
         <member name="M:flint.Pebble.GetTime(System.Boolean)">
             <summary>
@@ -130,19 +149,6 @@
             <param name="async">When true, this returns null immediately.  Otherwise it waits for the event and sends 
             the appropriate TimeReceivedEventArgs.</param>
             <returns>A TimeReceivedEventArgs with the time, or null.</returns>
-        </member>
-        <member name="M:flint.Pebble.BadPing">
-            <summary> Send a malformed ping (to trigger a LOGS response)
-            </summary>
-        </member>
-        <member name="M:flint.Pebble.GetVersion(System.Boolean)">
-            <summary> Get the Pebble's version info.  
-            </summary>
-            <param name="async">If true, return immediately.  If false, wait until the response 
-            has been received.</param>
-        </member>
-        <member name="M:flint.Pebble.pebbleProt_RawMessageReceived(System.Object,flint.RawMessageReceivedEventArgs)">
-            Pebble message event handlers *
         </member>
         <member name="M:flint.Pebble.sendMessage(flint.Pebble.Endpoints,System.Byte[])">
             <summary> Send a message to the connected Pebble.  
@@ -167,6 +173,30 @@
             <param name="ts"></param>
             <returns></returns>
         </member>
+        <member name="E:flint.Pebble.OnDisconnect">
+            <summary> Occurs when the Pebble (is considered to have) disconnected, 
+            either by manual disconnect or through a ping timeout.
+            </summary>
+        </member>
+        <member name="E:flint.Pebble.OnConnect">
+            <summary> Occurs when the serial interface has successfully connected.
+            Does not guarantee that the connection actually works.
+            </summary>
+        </member>
+        <member name="E:flint.Pebble.MessageReceived">
+            <summary> Received a full message (any message with complete endpoint and payload) 
+            from the Pebble.
+            </summary>
+        </member>
+        <member name="E:flint.Pebble.LogReceived">
+            <summary> Received a LOGS message from the Pebble. </summary>
+        </member>
+        <member name="E:flint.Pebble.PingReceived">
+            <summary> Received a PING message from the Pebble, presumably in response. </summary>
+        </member>
+        <member name="E:flint.Pebble.MediaControlReceived">
+            <summary> Received a music control message (next/prev/playpause) from the Pebble. </summary>
+        </member>
         <member name="P:flint.Pebble.PebbleID">
             <summary> The four-char ID for the Pebble, based on its BT address. 
             </summary>
@@ -176,7 +206,18 @@
             </summary>
         </member>
         <member name="P:flint.Pebble.Firmware">
-            Pebble version info *
+            <summary>The main firmware installed on the Pebble. </summary>
+        </member>
+        <member name="P:flint.Pebble.RecoveryFirmware">
+            <summary> The recovery firmware installed on the Pebble. </summary>
+        </member>
+        <member name="T:flint.Pebble.Endpoints">
+            <summary> Endpoints (~"commands") used by Pebble to indicate particular instructions 
+            or instruction types.
+            </summary>
+        </member>
+        <member name="T:flint.Pebble.MediaControls">
+            <summary> Media control instructions as understood by Pebble </summary>
         </member>
         <member name="T:flint.MessageReceivedEventArgs">
             <summary> Event args for any Pebble message, containing an endpoint and 
