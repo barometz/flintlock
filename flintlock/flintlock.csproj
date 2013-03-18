@@ -89,6 +89,9 @@
   <ItemGroup>
     <Content Include="flint.ico" />
     <None Include="Resources\watchface-off.png" />
+    <None Include="LICENSE.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Resources\watchface.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
