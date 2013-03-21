@@ -30,10 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Flintlock));
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.connectionLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.PebbleList = new System.Windows.Forms.ComboBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.connectButtonsLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.Connect = new System.Windows.Forms.Button();
             this.Scan = new System.Windows.Forms.Button();
             this.WatchfacePic = new System.Windows.Forms.PictureBox();
@@ -51,16 +50,7 @@
             this.Defaults = new System.Windows.Forms.Button();
             this.Apply = new System.Windows.Forms.Button();
             this.FirmwarePage = new System.Windows.Forms.TabPage();
-            this.FirmwareContainer = new System.Windows.Forms.SplitContainer();
-            this.MainFWBox = new System.Windows.Forms.GroupBox();
-            this.FWMainMetadataVersion = new System.Windows.Forms.Label();
-            this.tagFWMainMetadataVersion = new System.Windows.Forms.Label();
-            this.FWMainHWPlatform = new System.Windows.Forms.Label();
-            this.tagFWMainHWPlatform = new System.Windows.Forms.Label();
-            this.FWMainTimestamp = new System.Windows.Forms.Label();
-            this.tagFWMainTimestamp = new System.Windows.Forms.Label();
-            this.FWMainVersion = new System.Windows.Forms.Label();
-            this.tagFWMainVersion = new System.Windows.Forms.Label();
+            this.fwLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.RecovFWBox = new System.Windows.Forms.GroupBox();
             this.FWRecovMetadataVersion = new System.Windows.Forms.Label();
             this.tagFWRecovMetadataVersion = new System.Windows.Forms.Label();
@@ -70,66 +60,52 @@
             this.tagFWRecovTimestamp = new System.Windows.Forms.Label();
             this.FWRecovVersion = new System.Windows.Forms.Label();
             this.tagFWRecovVersion = new System.Windows.Forms.Label();
+            this.MainFWBox = new System.Windows.Forms.GroupBox();
+            this.FWMainMetadataVersion = new System.Windows.Forms.Label();
+            this.tagFWMainMetadataVersion = new System.Windows.Forms.Label();
+            this.FWMainHWPlatform = new System.Windows.Forms.Label();
+            this.tagFWMainHWPlatform = new System.Windows.Forms.Label();
+            this.FWMainTimestamp = new System.Windows.Forms.Label();
+            this.tagFWMainTimestamp = new System.Windows.Forms.Label();
+            this.FWMainVersion = new System.Windows.Forms.Label();
+            this.tagFWMainVersion = new System.Windows.Forms.Label();
             this.notificationMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pebbleNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.disconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
+            this.outerLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.connectionLayoutPanel.SuspendLayout();
+            this.connectButtonsLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WatchfacePic)).BeginInit();
             this.tabControl.SuspendLayout();
             this.SettingsPage.SuspendLayout();
             this.FirmwarePage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.FirmwareContainer)).BeginInit();
-            this.FirmwareContainer.Panel1.SuspendLayout();
-            this.FirmwareContainer.Panel2.SuspendLayout();
-            this.FirmwareContainer.SuspendLayout();
-            this.MainFWBox.SuspendLayout();
+            this.fwLayoutPanel.SuspendLayout();
             this.RecovFWBox.SuspendLayout();
+            this.MainFWBox.SuspendLayout();
             this.notificationMenu.SuspendLayout();
+            this.outerLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // splitContainer1
+            // connectionLayoutPanel
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.tableLayoutPanel1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.tabControl);
-            this.splitContainer1.Size = new System.Drawing.Size(644, 261);
-            this.splitContainer1.SplitterDistance = 210;
-            this.splitContainer1.TabIndex = 0;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.AutoSize = true;
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.PebbleList, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.WatchfacePic, 0, 2);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(210, 256);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.connectionLayoutPanel.AutoSize = true;
+            this.connectionLayoutPanel.ColumnCount = 1;
+            this.connectionLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.connectionLayoutPanel.Controls.Add(this.PebbleList, 0, 0);
+            this.connectionLayoutPanel.Controls.Add(this.connectButtonsLayoutPanel, 0, 1);
+            this.connectionLayoutPanel.Controls.Add(this.WatchfacePic, 0, 2);
+            this.connectionLayoutPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.connectionLayoutPanel.Location = new System.Drawing.Point(3, 3);
+            this.connectionLayoutPanel.Name = "connectionLayoutPanel";
+            this.connectionLayoutPanel.RowCount = 3;
+            this.connectionLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.connectionLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.connectionLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.connectionLayoutPanel.Size = new System.Drawing.Size(210, 256);
+            this.connectionLayoutPanel.TabIndex = 0;
             // 
             // PebbleList
             // 
@@ -141,20 +117,20 @@
             this.PebbleList.Size = new System.Drawing.Size(204, 24);
             this.PebbleList.TabIndex = 0;
             // 
-            // tableLayoutPanel2
+            // connectButtonsLayoutPanel
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.Connect, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.Scan, 1, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 33);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(204, 34);
-            this.tableLayoutPanel2.TabIndex = 1;
+            this.connectButtonsLayoutPanel.ColumnCount = 2;
+            this.connectButtonsLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.connectButtonsLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.connectButtonsLayoutPanel.Controls.Add(this.Connect, 0, 0);
+            this.connectButtonsLayoutPanel.Controls.Add(this.Scan, 1, 0);
+            this.connectButtonsLayoutPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.connectButtonsLayoutPanel.Location = new System.Drawing.Point(3, 33);
+            this.connectButtonsLayoutPanel.Name = "connectButtonsLayoutPanel";
+            this.connectButtonsLayoutPanel.RowCount = 1;
+            this.connectButtonsLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.connectButtonsLayoutPanel.Size = new System.Drawing.Size(204, 34);
+            this.connectButtonsLayoutPanel.TabIndex = 1;
             // 
             // Connect
             // 
@@ -198,10 +174,10 @@
             this.tabControl.Controls.Add(this.SettingsPage);
             this.tabControl.Controls.Add(this.FirmwarePage);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Location = new System.Drawing.Point(219, 3);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(430, 261);
+            this.tabControl.Size = new System.Drawing.Size(422, 261);
             this.tabControl.TabIndex = 2;
             // 
             // SettingsPage
@@ -220,7 +196,7 @@
             this.SettingsPage.Location = new System.Drawing.Point(4, 25);
             this.SettingsPage.Name = "SettingsPage";
             this.SettingsPage.Padding = new System.Windows.Forms.Padding(3);
-            this.SettingsPage.Size = new System.Drawing.Size(422, 232);
+            this.SettingsPage.Size = new System.Drawing.Size(414, 232);
             this.SettingsPage.TabIndex = 0;
             this.SettingsPage.Text = "Settings";
             this.SettingsPage.UseVisualStyleBackColor = true;
@@ -356,121 +332,29 @@
             // 
             // FirmwarePage
             // 
-            this.FirmwarePage.Controls.Add(this.FirmwareContainer);
+            this.FirmwarePage.Controls.Add(this.fwLayoutPanel);
             this.FirmwarePage.Location = new System.Drawing.Point(4, 25);
             this.FirmwarePage.Name = "FirmwarePage";
             this.FirmwarePage.Padding = new System.Windows.Forms.Padding(3);
-            this.FirmwarePage.Size = new System.Drawing.Size(422, 232);
+            this.FirmwarePage.Size = new System.Drawing.Size(414, 232);
             this.FirmwarePage.TabIndex = 1;
             this.FirmwarePage.Text = "Firmware";
             this.FirmwarePage.UseVisualStyleBackColor = true;
             // 
-            // FirmwareContainer
+            // fwLayoutPanel
             // 
-            this.FirmwareContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FirmwareContainer.Location = new System.Drawing.Point(3, 3);
-            this.FirmwareContainer.Name = "FirmwareContainer";
-            // 
-            // FirmwareContainer.Panel1
-            // 
-            this.FirmwareContainer.Panel1.Controls.Add(this.MainFWBox);
-            // 
-            // FirmwareContainer.Panel2
-            // 
-            this.FirmwareContainer.Panel2.Controls.Add(this.RecovFWBox);
-            this.FirmwareContainer.Size = new System.Drawing.Size(416, 226);
-            this.FirmwareContainer.SplitterDistance = 208;
-            this.FirmwareContainer.TabIndex = 0;
-            // 
-            // MainFWBox
-            // 
-            this.MainFWBox.Controls.Add(this.FWMainMetadataVersion);
-            this.MainFWBox.Controls.Add(this.tagFWMainMetadataVersion);
-            this.MainFWBox.Controls.Add(this.FWMainHWPlatform);
-            this.MainFWBox.Controls.Add(this.tagFWMainHWPlatform);
-            this.MainFWBox.Controls.Add(this.FWMainTimestamp);
-            this.MainFWBox.Controls.Add(this.tagFWMainTimestamp);
-            this.MainFWBox.Controls.Add(this.FWMainVersion);
-            this.MainFWBox.Controls.Add(this.tagFWMainVersion);
-            this.MainFWBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainFWBox.Location = new System.Drawing.Point(0, 0);
-            this.MainFWBox.Name = "MainFWBox";
-            this.MainFWBox.Size = new System.Drawing.Size(208, 226);
-            this.MainFWBox.TabIndex = 0;
-            this.MainFWBox.TabStop = false;
-            this.MainFWBox.Text = "Main";
-            // 
-            // FWMainMetadataVersion
-            // 
-            this.FWMainMetadataVersion.AutoSize = true;
-            this.FWMainMetadataVersion.Location = new System.Drawing.Point(20, 188);
-            this.FWMainMetadataVersion.Name = "FWMainMetadataVersion";
-            this.FWMainMetadataVersion.Size = new System.Drawing.Size(0, 17);
-            this.FWMainMetadataVersion.TabIndex = 7;
-            // 
-            // tagFWMainMetadataVersion
-            // 
-            this.tagFWMainMetadataVersion.AutoSize = true;
-            this.tagFWMainMetadataVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tagFWMainMetadataVersion.Location = new System.Drawing.Point(6, 171);
-            this.tagFWMainMetadataVersion.Name = "tagFWMainMetadataVersion";
-            this.tagFWMainMetadataVersion.Size = new System.Drawing.Size(133, 17);
-            this.tagFWMainMetadataVersion.TabIndex = 6;
-            this.tagFWMainMetadataVersion.Text = "Metadata version";
-            // 
-            // FWMainHWPlatform
-            // 
-            this.FWMainHWPlatform.AutoSize = true;
-            this.FWMainHWPlatform.Location = new System.Drawing.Point(20, 137);
-            this.FWMainHWPlatform.Name = "FWMainHWPlatform";
-            this.FWMainHWPlatform.Size = new System.Drawing.Size(0, 17);
-            this.FWMainHWPlatform.TabIndex = 5;
-            // 
-            // tagFWMainHWPlatform
-            // 
-            this.tagFWMainHWPlatform.AutoSize = true;
-            this.tagFWMainHWPlatform.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tagFWMainHWPlatform.Location = new System.Drawing.Point(6, 120);
-            this.tagFWMainHWPlatform.Name = "tagFWMainHWPlatform";
-            this.tagFWMainHWPlatform.Size = new System.Drawing.Size(141, 17);
-            this.tagFWMainHWPlatform.TabIndex = 4;
-            this.tagFWMainHWPlatform.Text = "Hardware platform";
-            // 
-            // FWMainTimestamp
-            // 
-            this.FWMainTimestamp.AutoSize = true;
-            this.FWMainTimestamp.Location = new System.Drawing.Point(20, 86);
-            this.FWMainTimestamp.Name = "FWMainTimestamp";
-            this.FWMainTimestamp.Size = new System.Drawing.Size(0, 17);
-            this.FWMainTimestamp.TabIndex = 3;
-            // 
-            // tagFWMainTimestamp
-            // 
-            this.tagFWMainTimestamp.AutoSize = true;
-            this.tagFWMainTimestamp.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tagFWMainTimestamp.Location = new System.Drawing.Point(6, 69);
-            this.tagFWMainTimestamp.Name = "tagFWMainTimestamp";
-            this.tagFWMainTimestamp.Size = new System.Drawing.Size(86, 17);
-            this.tagFWMainTimestamp.TabIndex = 2;
-            this.tagFWMainTimestamp.Text = "Timestamp";
-            // 
-            // FWMainVersion
-            // 
-            this.FWMainVersion.AutoSize = true;
-            this.FWMainVersion.Location = new System.Drawing.Point(20, 35);
-            this.FWMainVersion.Name = "FWMainVersion";
-            this.FWMainVersion.Size = new System.Drawing.Size(0, 17);
-            this.FWMainVersion.TabIndex = 1;
-            // 
-            // tagFWMainVersion
-            // 
-            this.tagFWMainVersion.AutoSize = true;
-            this.tagFWMainVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tagFWMainVersion.Location = new System.Drawing.Point(6, 18);
-            this.tagFWMainVersion.Name = "tagFWMainVersion";
-            this.tagFWMainVersion.Size = new System.Drawing.Size(63, 17);
-            this.tagFWMainVersion.TabIndex = 0;
-            this.tagFWMainVersion.Text = "Version";
+            this.fwLayoutPanel.ColumnCount = 2;
+            this.fwLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.fwLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.fwLayoutPanel.Controls.Add(this.RecovFWBox, 1, 0);
+            this.fwLayoutPanel.Controls.Add(this.MainFWBox, 0, 0);
+            this.fwLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fwLayoutPanel.Location = new System.Drawing.Point(3, 3);
+            this.fwLayoutPanel.Name = "fwLayoutPanel";
+            this.fwLayoutPanel.RowCount = 1;
+            this.fwLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.fwLayoutPanel.Size = new System.Drawing.Size(408, 226);
+            this.fwLayoutPanel.TabIndex = 2;
             // 
             // RecovFWBox
             // 
@@ -483,9 +367,9 @@
             this.RecovFWBox.Controls.Add(this.FWRecovVersion);
             this.RecovFWBox.Controls.Add(this.tagFWRecovVersion);
             this.RecovFWBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.RecovFWBox.Location = new System.Drawing.Point(0, 0);
+            this.RecovFWBox.Location = new System.Drawing.Point(207, 3);
             this.RecovFWBox.Name = "RecovFWBox";
-            this.RecovFWBox.Size = new System.Drawing.Size(204, 226);
+            this.RecovFWBox.Size = new System.Drawing.Size(198, 220);
             this.RecovFWBox.TabIndex = 0;
             this.RecovFWBox.TabStop = false;
             this.RecovFWBox.Text = "Recovery";
@@ -562,6 +446,96 @@
             this.tagFWRecovVersion.TabIndex = 8;
             this.tagFWRecovVersion.Text = "Version";
             // 
+            // MainFWBox
+            // 
+            this.MainFWBox.Controls.Add(this.FWMainMetadataVersion);
+            this.MainFWBox.Controls.Add(this.tagFWMainMetadataVersion);
+            this.MainFWBox.Controls.Add(this.FWMainHWPlatform);
+            this.MainFWBox.Controls.Add(this.tagFWMainHWPlatform);
+            this.MainFWBox.Controls.Add(this.FWMainTimestamp);
+            this.MainFWBox.Controls.Add(this.tagFWMainTimestamp);
+            this.MainFWBox.Controls.Add(this.FWMainVersion);
+            this.MainFWBox.Controls.Add(this.tagFWMainVersion);
+            this.MainFWBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainFWBox.Location = new System.Drawing.Point(3, 3);
+            this.MainFWBox.Name = "MainFWBox";
+            this.MainFWBox.Size = new System.Drawing.Size(198, 220);
+            this.MainFWBox.TabIndex = 0;
+            this.MainFWBox.TabStop = false;
+            this.MainFWBox.Text = "Main";
+            // 
+            // FWMainMetadataVersion
+            // 
+            this.FWMainMetadataVersion.AutoSize = true;
+            this.FWMainMetadataVersion.Location = new System.Drawing.Point(20, 188);
+            this.FWMainMetadataVersion.Name = "FWMainMetadataVersion";
+            this.FWMainMetadataVersion.Size = new System.Drawing.Size(0, 17);
+            this.FWMainMetadataVersion.TabIndex = 7;
+            // 
+            // tagFWMainMetadataVersion
+            // 
+            this.tagFWMainMetadataVersion.AutoSize = true;
+            this.tagFWMainMetadataVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tagFWMainMetadataVersion.Location = new System.Drawing.Point(6, 171);
+            this.tagFWMainMetadataVersion.Name = "tagFWMainMetadataVersion";
+            this.tagFWMainMetadataVersion.Size = new System.Drawing.Size(133, 17);
+            this.tagFWMainMetadataVersion.TabIndex = 6;
+            this.tagFWMainMetadataVersion.Text = "Metadata version";
+            // 
+            // FWMainHWPlatform
+            // 
+            this.FWMainHWPlatform.AutoSize = true;
+            this.FWMainHWPlatform.Location = new System.Drawing.Point(20, 137);
+            this.FWMainHWPlatform.Name = "FWMainHWPlatform";
+            this.FWMainHWPlatform.Size = new System.Drawing.Size(0, 17);
+            this.FWMainHWPlatform.TabIndex = 5;
+            // 
+            // tagFWMainHWPlatform
+            // 
+            this.tagFWMainHWPlatform.AutoSize = true;
+            this.tagFWMainHWPlatform.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tagFWMainHWPlatform.Location = new System.Drawing.Point(6, 120);
+            this.tagFWMainHWPlatform.Name = "tagFWMainHWPlatform";
+            this.tagFWMainHWPlatform.Size = new System.Drawing.Size(141, 17);
+            this.tagFWMainHWPlatform.TabIndex = 4;
+            this.tagFWMainHWPlatform.Text = "Hardware platform";
+            // 
+            // FWMainTimestamp
+            // 
+            this.FWMainTimestamp.AutoSize = true;
+            this.FWMainTimestamp.Location = new System.Drawing.Point(20, 86);
+            this.FWMainTimestamp.Name = "FWMainTimestamp";
+            this.FWMainTimestamp.Size = new System.Drawing.Size(0, 17);
+            this.FWMainTimestamp.TabIndex = 3;
+            // 
+            // tagFWMainTimestamp
+            // 
+            this.tagFWMainTimestamp.AutoSize = true;
+            this.tagFWMainTimestamp.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tagFWMainTimestamp.Location = new System.Drawing.Point(6, 69);
+            this.tagFWMainTimestamp.Name = "tagFWMainTimestamp";
+            this.tagFWMainTimestamp.Size = new System.Drawing.Size(86, 17);
+            this.tagFWMainTimestamp.TabIndex = 2;
+            this.tagFWMainTimestamp.Text = "Timestamp";
+            // 
+            // FWMainVersion
+            // 
+            this.FWMainVersion.AutoSize = true;
+            this.FWMainVersion.Location = new System.Drawing.Point(20, 35);
+            this.FWMainVersion.Name = "FWMainVersion";
+            this.FWMainVersion.Size = new System.Drawing.Size(0, 17);
+            this.FWMainVersion.TabIndex = 1;
+            // 
+            // tagFWMainVersion
+            // 
+            this.tagFWMainVersion.AutoSize = true;
+            this.tagFWMainVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tagFWMainVersion.Location = new System.Drawing.Point(6, 18);
+            this.tagFWMainVersion.Name = "tagFWMainVersion";
+            this.tagFWMainVersion.Size = new System.Drawing.Size(63, 17);
+            this.tagFWMainVersion.TabIndex = 0;
+            this.tagFWMainVersion.Text = "Version";
+            // 
             // notificationMenu
             // 
             this.notificationMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -609,13 +583,30 @@
             this.notifyIcon.Visible = global::flintlock.Properties.Settings.Default.ShowInTray;
             this.notifyIcon.DoubleClick += new System.EventHandler(this.notifyIcon_DoubleClick);
             // 
+            // outerLayoutPanel
+            // 
+            this.outerLayoutPanel.AutoSize = true;
+            this.outerLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.outerLayoutPanel.ColumnCount = 2;
+            this.outerLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.outerLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.70807F));
+            this.outerLayoutPanel.Controls.Add(this.tabControl, 1, 0);
+            this.outerLayoutPanel.Controls.Add(this.connectionLayoutPanel, 0, 0);
+            this.outerLayoutPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.outerLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.outerLayoutPanel.Name = "outerLayoutPanel";
+            this.outerLayoutPanel.RowCount = 1;
+            this.outerLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.outerLayoutPanel.Size = new System.Drawing.Size(644, 267);
+            this.outerLayoutPanel.TabIndex = 1;
+            // 
             // Flintlock
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(644, 265);
-            this.Controls.Add(this.splitContainer1);
+            this.ClientSize = new System.Drawing.Size(644, 267);
+            this.Controls.Add(this.outerLayoutPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -624,38 +615,32 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Flintlock_FormClosed);
             this.Shown += new System.EventHandler(this.Flintlock_Shown);
             this.Resize += new System.EventHandler(this.Flintlock_Resize);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
+            this.connectionLayoutPanel.ResumeLayout(false);
+            this.connectButtonsLayoutPanel.ResumeLayout(false);
+            this.connectButtonsLayoutPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WatchfacePic)).EndInit();
             this.tabControl.ResumeLayout(false);
             this.SettingsPage.ResumeLayout(false);
             this.SettingsPage.PerformLayout();
             this.FirmwarePage.ResumeLayout(false);
-            this.FirmwareContainer.Panel1.ResumeLayout(false);
-            this.FirmwareContainer.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.FirmwareContainer)).EndInit();
-            this.FirmwareContainer.ResumeLayout(false);
-            this.MainFWBox.ResumeLayout(false);
-            this.MainFWBox.PerformLayout();
+            this.fwLayoutPanel.ResumeLayout(false);
             this.RecovFWBox.ResumeLayout(false);
             this.RecovFWBox.PerformLayout();
+            this.MainFWBox.ResumeLayout(false);
+            this.MainFWBox.PerformLayout();
             this.notificationMenu.ResumeLayout(false);
+            this.outerLayoutPanel.ResumeLayout(false);
+            this.outerLayoutPanel.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel connectionLayoutPanel;
         private System.Windows.Forms.ComboBox PebbleList;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TableLayoutPanel connectButtonsLayoutPanel;
         private System.Windows.Forms.Button Connect;
         private System.Windows.Forms.Button Scan;
         private System.Windows.Forms.PictureBox WatchfacePic;
@@ -678,7 +663,6 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage SettingsPage;
         private System.Windows.Forms.TabPage FirmwarePage;
-        private System.Windows.Forms.SplitContainer FirmwareContainer;
         private System.Windows.Forms.GroupBox MainFWBox;
         private System.Windows.Forms.GroupBox RecovFWBox;
         private System.Windows.Forms.Label FWMainMetadataVersion;
@@ -698,6 +682,8 @@
         private System.Windows.Forms.Label FWRecovVersion;
         private System.Windows.Forms.Label tagFWRecovVersion;
         private System.Windows.Forms.Label LastKnownPebblePort;
+        private System.Windows.Forms.TableLayoutPanel outerLayoutPanel;
+        private System.Windows.Forms.TableLayoutPanel fwLayoutPanel;
 
 
     }
