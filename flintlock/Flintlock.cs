@@ -25,6 +25,7 @@ namespace flintlock
             listUpdateWorker = new BackgroundWorker();
             listUpdateWorker.DoWork += listUpdateWorker_DoWork;
             listUpdateWorker.RunWorkerCompleted += listUpdateWorker_RunWorkerCompleted;
+            DisEnableControls();
         }
 
         /// <summary>
@@ -62,6 +63,36 @@ namespace flintlock
         }
 
         /// <summary>
+        /// Configures the connection UI (scan button/combo, connect button) as appropriate for 
+        /// the current connection state.
+        /// </summary>
+        private void DisEnableControls()
+        {
+            if (pebble != null && pebble.Alive == true)
+            {
+                Connect.Text = "Dis&connect";
+                Connect.Enabled = true;
+                Scan.Enabled = false;
+                PebbleList.Enabled = false;
+            }
+            else 
+            {
+                Connect.Text = "&Connect";
+                Scan.Enabled = true;
+                if (PebbleList.Items.Count > 0)
+                {
+                    Connect.Enabled = true;
+                    PebbleList.Enabled = true;
+                }
+                else
+                {
+                    Connect.Enabled = false;
+                    PebbleList.Enabled = false;
+                }
+            }
+        }
+
+        /// <summary>
         /// Connect to the Pebble that's currently selected in the combobox, if any.
         /// </summary>
         private void ConnectToSelectedPebble()
@@ -94,14 +125,13 @@ namespace flintlock
         /// </summary>
         private void DisconnectUIUpdate()
         {
-            Scan.Enabled = true;
             WatchfacePic.Image = Properties.Resources.watchface_off;
-            Connect.Text = "&Connect";
             pebbleNameToolStripMenuItem.Text = "Disconnected";
             disconnectToolStripMenuItem.Enabled = false;
             notifyIcon.Text = "Disconnected";
             ResetVersionInfo();
             pebble = null;
+            DisEnableControls();
         }
 
         /// <summary>
@@ -125,9 +155,8 @@ namespace flintlock
                         autocon = peb;
                     }
                 }
-                PebbleList.Enabled = true;
+
                 PebbleList.SelectedIndex = 0;
-                Connect.Enabled = true;
 
                 if (autocon != null
                     && Properties.Settings.Default.Autoconnect)
@@ -149,7 +178,7 @@ namespace flintlock
                     }
                 }
             }
-            Scan.Enabled = true;
+            DisEnableControls();
         }
 
         /// <summary>
@@ -275,6 +304,7 @@ namespace flintlock
             {
                 ConnectToSelectedPebble();
             }
+            DisEnableControls();
         }
 
         private void WatchfacePic_Click(object sender, EventArgs e)
@@ -367,11 +397,11 @@ namespace flintlock
             notifyIcon.Visible = false;
         }
 
-        #endregion
-
         private void links_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(e.Link.LinkData as String);
         }
+
+        #endregion
     }
 }
