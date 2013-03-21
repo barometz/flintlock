@@ -342,6 +342,11 @@ namespace flintlock
             {
                 listUpdateWorker.RunWorkerAsync();
             }
+            DepsLinks.Links.Add(new LinkLabel.Link(0, 5, "https://github.com/barometz/flint"));
+            DepsLinks.Links.Add(new LinkLabel.Link(7, 10, "http://32feet.codeplex.com/"));
+            DepsLinks.Links.Add(new LinkLabel.Link(19, 9, "https://github.com/Hexxeh/libpebble"));
+            AuthorLink.Links.Add(new LinkLabel.Link(0, AuthorLink.Text.Length, "http://barometz.name/datasheet/"));
+            FOSSLink.Links.Add(new LinkLabel.Link(0, FOSSLink.Text.Length, "https://github.com/barometz/flintlock"));
         }
 
         private void Flintlock_FormClosed(object sender, FormClosedEventArgs e)
@@ -355,5 +360,10 @@ namespace flintlock
         }
 
         #endregion
+
+        private void links_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(e.Link.LinkData as String);
+        }
     }
 }

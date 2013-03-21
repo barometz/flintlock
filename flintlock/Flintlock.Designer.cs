@@ -69,6 +69,14 @@
             this.tagFWMainTimestamp = new System.Windows.Forms.Label();
             this.FWMainVersion = new System.Windows.Forms.Label();
             this.tagFWMainVersion = new System.Windows.Forms.Label();
+            this.aboutPage = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.FOSS = new System.Windows.Forms.Label();
+            this.Deps = new System.Windows.Forms.Label();
+            this.FOSSLink = new System.Windows.Forms.LinkLabel();
+            this.DepsLinks = new System.Windows.Forms.LinkLabel();
+            this.Author = new System.Windows.Forms.Label();
+            this.AuthorLink = new System.Windows.Forms.LinkLabel();
             this.notificationMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pebbleNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.disconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,6 +93,8 @@
             this.fwLayoutPanel.SuspendLayout();
             this.RecovFWBox.SuspendLayout();
             this.MainFWBox.SuspendLayout();
+            this.aboutPage.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.notificationMenu.SuspendLayout();
             this.outerLayoutPanel.SuspendLayout();
             this.SuspendLayout();
@@ -173,6 +183,7 @@
             // 
             this.tabControl.Controls.Add(this.SettingsPage);
             this.tabControl.Controls.Add(this.FirmwarePage);
+            this.tabControl.Controls.Add(this.aboutPage);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(219, 3);
             this.tabControl.Name = "tabControl";
@@ -536,6 +547,108 @@
             this.tagFWMainVersion.TabIndex = 0;
             this.tagFWMainVersion.Text = "Version";
             // 
+            // aboutPage
+            // 
+            this.aboutPage.Controls.Add(this.tableLayoutPanel1);
+            this.aboutPage.Location = new System.Drawing.Point(4, 25);
+            this.aboutPage.Name = "aboutPage";
+            this.aboutPage.Padding = new System.Windows.Forms.Padding(3);
+            this.aboutPage.Size = new System.Drawing.Size(414, 232);
+            this.aboutPage.TabIndex = 2;
+            this.aboutPage.Text = "About";
+            this.aboutPage.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.AutoSize = true;
+            this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.FOSS, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.Deps, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.FOSSLink, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.DepsLinks, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.Author, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.AuthorLink, 1, 2);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(408, 219);
+            this.tableLayoutPanel1.TabIndex = 3;
+            // 
+            // FOSS
+            // 
+            this.FOSS.AutoSize = true;
+            this.FOSS.Location = new System.Drawing.Point(3, 0);
+            this.FOSS.Margin = new System.Windows.Forms.Padding(3, 0, 3, 5);
+            this.FOSS.Name = "FOSS";
+            this.FOSS.Size = new System.Drawing.Size(311, 68);
+            this.FOSS.TabIndex = 2;
+            this.FOSS.Text = "Flintlock is an open-source project. You\'re free to read, modify, compile and red" +
+    "istribute the source code as you see fit - or you can just use it.";
+            // 
+            // Deps
+            // 
+            this.Deps.AutoSize = true;
+            this.Deps.Location = new System.Drawing.Point(3, 73);
+            this.Deps.Margin = new System.Windows.Forms.Padding(3, 0, 3, 5);
+            this.Deps.Name = "Deps";
+            this.Deps.Size = new System.Drawing.Size(312, 85);
+            this.Deps.TabIndex = 0;
+            this.Deps.Text = resources.GetString("Deps.Text");
+            // 
+            // FOSSLink
+            // 
+            this.FOSSLink.AutoSize = true;
+            this.FOSSLink.Location = new System.Drawing.Point(322, 0);
+            this.FOSSLink.Margin = new System.Windows.Forms.Padding(3, 0, 3, 5);
+            this.FOSSLink.Name = "FOSSLink";
+            this.FOSSLink.Size = new System.Drawing.Size(83, 34);
+            this.FOSSLink.TabIndex = 4;
+            this.FOSSLink.TabStop = true;
+            this.FOSSLink.Text = "Flintlock on \r\nGitHub";
+            this.FOSSLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.links_LinkClicked);
+            // 
+            // DepsLinks
+            // 
+            this.DepsLinks.AutoSize = true;
+            this.DepsLinks.Location = new System.Drawing.Point(322, 73);
+            this.DepsLinks.Margin = new System.Windows.Forms.Padding(3, 0, 3, 5);
+            this.DepsLinks.Name = "DepsLinks";
+            this.DepsLinks.Size = new System.Drawing.Size(80, 51);
+            this.DepsLinks.TabIndex = 1;
+            this.DepsLinks.TabStop = true;
+            this.DepsLinks.Text = "Flint\r\n32feet.NET\r\nlibpebble";
+            this.DepsLinks.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.links_LinkClicked);
+            // 
+            // Author
+            // 
+            this.Author.AutoSize = true;
+            this.Author.Location = new System.Drawing.Point(3, 163);
+            this.Author.Margin = new System.Windows.Forms.Padding(3, 0, 3, 5);
+            this.Author.Name = "Author";
+            this.Author.Size = new System.Drawing.Size(306, 51);
+            this.Author.TabIndex = 5;
+            this.Author.Text = "The author of Flintlock and Flint is Dominic van Berkel, a student and hobbyist w" +
+    "ith a taste for tinkering.";
+            // 
+            // AuthorLink
+            // 
+            this.AuthorLink.AutoSize = true;
+            this.AuthorLink.Location = new System.Drawing.Point(322, 163);
+            this.AuthorLink.Margin = new System.Windows.Forms.Padding(3, 0, 3, 5);
+            this.AuthorLink.Name = "AuthorLink";
+            this.AuthorLink.Size = new System.Drawing.Size(73, 17);
+            this.AuthorLink.TabIndex = 6;
+            this.AuthorLink.TabStop = true;
+            this.AuthorLink.Text = "Datasheet";
+            this.AuthorLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.links_LinkClicked);
+            // 
             // notificationMenu
             // 
             this.notificationMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -628,6 +741,10 @@
             this.RecovFWBox.PerformLayout();
             this.MainFWBox.ResumeLayout(false);
             this.MainFWBox.PerformLayout();
+            this.aboutPage.ResumeLayout(false);
+            this.aboutPage.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.notificationMenu.ResumeLayout(false);
             this.outerLayoutPanel.ResumeLayout(false);
             this.outerLayoutPanel.PerformLayout();
@@ -684,6 +801,14 @@
         private System.Windows.Forms.Label LastKnownPebblePort;
         private System.Windows.Forms.TableLayoutPanel outerLayoutPanel;
         private System.Windows.Forms.TableLayoutPanel fwLayoutPanel;
+        private System.Windows.Forms.TabPage aboutPage;
+        private System.Windows.Forms.Label Deps;
+        private System.Windows.Forms.LinkLabel DepsLinks;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label FOSS;
+        private System.Windows.Forms.LinkLabel FOSSLink;
+        private System.Windows.Forms.Label Author;
+        private System.Windows.Forms.LinkLabel AuthorLink;
 
 
     }
