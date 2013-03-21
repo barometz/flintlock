@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Deps.Text" xml:space="preserve">
-    <value>Flintlock is not a standalone application: it relies on Flint and 32feet.NET to find and connect with Pebbles.  Additionally, much of the credit for figuring out Pebble communication goes to the authors of libpebble.</value>
+    <value>Flintlock is not a standalone project: it relies on Flint and 32feet.NET to find and connect with Pebbles.  Additionally, much of the credit for figuring out Pebble communication goes to the authors of libpebble.</value>
   </data>
   <metadata name="notificationMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>138, 17</value>

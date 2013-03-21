@@ -322,7 +322,7 @@
             // Defaults
             // 
             this.Defaults.AutoSize = true;
-            this.Defaults.Location = new System.Drawing.Point(339, 199);
+            this.Defaults.Location = new System.Drawing.Point(333, 199);
             this.Defaults.Name = "Defaults";
             this.Defaults.Size = new System.Drawing.Size(75, 27);
             this.Defaults.TabIndex = 4;
@@ -598,7 +598,7 @@
             this.Deps.Location = new System.Drawing.Point(3, 73);
             this.Deps.Margin = new System.Windows.Forms.Padding(3, 0, 3, 5);
             this.Deps.Name = "Deps";
-            this.Deps.Size = new System.Drawing.Size(312, 85);
+            this.Deps.Size = new System.Drawing.Size(307, 85);
             this.Deps.TabIndex = 0;
             this.Deps.Text = resources.GetString("Deps.Text");
             // 

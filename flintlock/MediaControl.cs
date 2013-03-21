@@ -55,8 +55,24 @@ namespace flintlock
             HARDWAREINPUT hi;
         }
 
+        [StructLayout(LayoutKind.Explicit)]
+        public struct INPUT64
+        {
+            [FieldOffset(0)]
+            public int type;
+            [FieldOffset(8)]
+            public MOUSEINPUT mi;
+            [FieldOffset(8)]
+            public KEYBDINPUT ki;
+            [FieldOffset(8)]
+            public HARDWAREINPUT hi;
+        }
+
         [DllImport("user32.dll")]
-        public static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
+        public static extern uint SendInput(uint nInputs, [MarshalAs(UnmanagedType.LPArray), In] INPUT[] pInputs, int cbSize);
+
+        [DllImport("user32.dll")]
+        public static extern uint SendInput(uint nInputs, [MarshalAs(UnmanagedType.LPArray), In] INPUT64[] pInputs, int cbSize);
 
         /// <summary>
         /// Send a "Play/Pause" keyboard event.
@@ -84,23 +100,36 @@ namespace flintlock
 
         static void SendKey(short keycode)
         {
-            INPUT ip = new INPUT();
-            ip.type = 1; // Indicates a keyboard event
-            ip.ki.time = 0;
-            ip.ki.wScan = 0;
-            ip.ki.dwExtraInfo = (IntPtr)0;
-
-            ip.ki.wVk = keycode;
-            ip.ki.dwFlags = 0;
-            INPUT[] ips = { ip };
-            // Press the key...
-            SendInput(1, ips, Marshal.SizeOf(ip));
-
-            ip.ki.dwFlags = 2;
-            // structs are passed by value, so pass it again
-            ips[0] = ip;
-            // And let go.
-            SendInput(1, ips, Marshal.SizeOf(ip));
+            KEYBDINPUT ki = new KEYBDINPUT()
+            {
+                time = 0,
+                wScan = 0,
+                dwExtraInfo = (IntPtr)0,
+                wVk = keycode,
+                dwFlags = 0
+            };
+            if (IntPtr.Size > 4)
+            {
+                // 64-bit environment
+                INPUT64 ip = new INPUT64();
+                ip.type = 1; // Indicates a keyboard event
+                ip.ki = ki;
+                SendInput(1, new INPUT64[] { ip }, Marshal.SizeOf(ip));
+                ip.ki.dwFlags = 2;
+                SendInput(1, new INPUT64[] { ip }, Marshal.SizeOf(ip));
+            }
+            else
+            {
+                // 32-bit environment
+                INPUT ip = new INPUT();
+                ip.type = 1; // Indicates a keyboard event
+                ip.ki = ki;
+                // Press..
+                SendInput(1, new INPUT[] { ip }, Marshal.SizeOf(ip));
+                ip.ki.dwFlags = 2;
+                // And let go.
+                SendInput(1, new INPUT[] { ip }, Marshal.SizeOf(ip));
+            }
         }
 
     }
