@@ -128,7 +128,6 @@ namespace flintlock
                 PebbleList.Enabled = true;
                 PebbleList.SelectedIndex = 0;
                 Connect.Enabled = true;
-                Scan.Enabled = true;
 
                 if (autocon != null
                     && Properties.Settings.Default.Autoconnect)
@@ -150,6 +149,7 @@ namespace flintlock
                     }
                 }
             }
+            Scan.Enabled = true;
         }
 
         /// <summary>
@@ -159,8 +159,16 @@ namespace flintlock
         /// <param name="e"></param>
         private void listUpdateWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            List<Pebble> peblist = Pebble.DetectPebbles();
-            e.Result = peblist;
+            try
+            {
+                List<Pebble> peblist = Pebble.DetectPebbles();
+                e.Result = peblist;
+            }
+            catch (PlatformNotSupportedException)
+            {
+                MessageBox.Show("Failed to connect: make sure your Bluetooth adapter is connected and enabled.");
+                pebble = null;
+            }
         }
 
         #region Pebble event handlers
