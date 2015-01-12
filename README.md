@@ -1,6 +1,8 @@
 flintlock
 =========
 
+**note** Flint, and by extension Flintlock, is not maintained in this repository at this point, or anywhere else as far as I know.  For alternatives, look to https://github.com/Keboo/PebbleSharp and associated products (maybe) or other newer projects.
+
 Flintlock is a Windows application that interacts with Pebble smartwatches using the flint library.  So 
 far only tested with Windows 7 32-bit, but anything from 2000 and up is expected to work.
 
